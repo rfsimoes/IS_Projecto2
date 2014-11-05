@@ -44,46 +44,27 @@ public class MyMessageBean implements MessageListener {
 	 * @see MessageListener#onMessage(Message)
 	 */
 	public void onMessage(Message message) {
-		try {
-			System.out.println("Recebeu stuff");
-			/*// Adicionar ao XML a referência ao XSLT
+		System.out.println("Recebeu stuff");
+		/*// Adicionar ao XML a referência ao XSLT
 
-			String msg = ((TextMessage) message).getText();
-			String aux = (msg.split("\\?>"))[0]
-					+ "?><?xml-stylesheet type=\"text/xsl\" href=\"Stylesheet.xsl\"?>"
-					+ msg.split("\\?>")[1];
-			TransformerFactory transformerFactory = TransformerFactory
-					.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder
-					.parse(new InputSource(new StringReader(aux)));
-			DOMSource source = new DOMSource(doc);
-			String ficheiroXML = "HTML_" + System.currentTimeMillis() + ".xml";
-			StreamResult result = new StreamResult(new File(ficheiroXML));
-			transformer.transform(source, result);
+		String msg = ((TextMessage) message).getText();
+		String aux = (msg.split("\\?>"))[0]
+				+ "?><?xml-stylesheet type=\"text/xsl\" href=\"Stylesheet.xsl\"?>"
+				+ msg.split("\\?>")[1];
+		TransformerFactory transformerFactory = TransformerFactory
+				.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DocumentBuilderFactory factory = DocumentBuilderFactory
+				.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document doc = builder
+				.parse(new InputSource(new StringReader(aux)));
+		DOMSource source = new DOMSource(doc);
+		String ficheiroXML = "HTML_" + System.currentTimeMillis() + ".xml";
+		StreamResult result = new StreamResult(new File(ficheiroXML));
+		transformer.transform(source, result);
 
-			System.out.println("Ficheiro '" + ficheiroXML + "' criado.\n");
-		} catch (JMSException e) {
-			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		System.out.println("Ficheiro '" + ficheiroXML + "' criado.\n");*/
 	}
 
 }
