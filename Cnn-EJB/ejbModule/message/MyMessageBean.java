@@ -1,5 +1,7 @@
 package message;
 
+import generated.Cnn;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -10,6 +12,9 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,7 +22,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -45,6 +49,23 @@ public class MyMessageBean implements MessageListener {
 	 */
 	public void onMessage(Message message) {
 		System.out.println("Recebeu stuff");
+		
+		try {
+			JAXBContext context = JAXBContext.newInstance(Cnn.class);
+			
+			Unmarshaller u = context.createUnmarshaller();
+			String msg = ((TextMessage) message).getText();
+			
+			Cnn cnn = (Cnn) u.unmarshal(new StringReader(msg));
+			
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		/*// Adicionar ao XML a referência ao XSLT
 
 		String msg = ((TextMessage) message).getText();
