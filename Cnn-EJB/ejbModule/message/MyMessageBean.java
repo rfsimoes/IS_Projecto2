@@ -71,17 +71,25 @@ public class MyMessageBean implements MessageListener {
 			
 			Cnn cnn = (Cnn) u.unmarshal(new StringReader(msg));
 			
+			// Percorrer as regiões
 			for(Region r:cnn.getRegion()){
+				// Percorrer as notícias
 				for(generated.News n:r.getNews()){
+					// Lista de autores para cada notícia
 					List<Author> authors = new ArrayList<Author>();
+					// Percorrer cada autor para o adicionar à BD e à lista
 					for(String name:n.getAuthor()){
+						// Verificar se já existe um autor com o mesmo nome
 						Author existe = em.find(Author.class, name);
+						// Existindo ou não, é adicionado à lista de autores da notícia
 						Author a = new Author(name);
 						authors.add(a);
+						// Só é adicionado à tabela Author se ainda não existir
 						if(existe==null){
 							em.persist(a);
 						}
 					}
+					// Preparar a data
 					Calendar cal = Calendar.getInstance();
 					cal.set(Calendar.YEAR, n.getDate().getYear());
 					cal.set(Calendar.MONTH, n.getDate().getMonth());
@@ -89,7 +97,9 @@ public class MyMessageBean implements MessageListener {
 					cal.set(Calendar.HOUR_OF_DAY, n.getDate().getHour()/100);
 					cal.set(Calendar.MINUTE, n.getDate().getHour()%100);
 					java.sql.Date jsqlDate = new java.sql.Date(cal.getTime().getTime());
+					// Criar nova notícia com a estrutura correspondente à da BD
 					News nova = new News(r.getName(), n.getTitle(), n.getUrl(), n.getHighlights(), jsqlDate, authors, n.getText(), n.getPhotoURL(), n.getVideoURL());
+					// Adicionar notícia à BD
 					em.persist(nova);
 				}
 			}
