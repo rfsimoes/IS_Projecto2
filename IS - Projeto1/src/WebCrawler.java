@@ -174,7 +174,7 @@ public class WebCrawler {
 						&& !o.attr("abs:href").contains("video")
 						&& !o.attr("abs:href").contains("gallery")
 						&& !o.attr("abs:href").contains("SPECIALS")
-						&& !l.attr("abs:href").contains("SPORT")) {
+						&& !o.attr("abs:href").contains("SPORT")) {
 					trataNoticia(o.attr("abs:href"));
 				}
 			}
