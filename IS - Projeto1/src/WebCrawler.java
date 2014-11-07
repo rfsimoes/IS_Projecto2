@@ -157,7 +157,8 @@ public class WebCrawler {
 				if (l.attr("abs:href").contains("edition.cnn.com")
 						&& !l.attr("abs:href").contains("video")
 						&& !l.attr("abs:href").contains("gallery")
-						&& !l.attr("abs:href").contains("SPECIALS")) {
+						&& !l.attr("abs:href").contains("SPECIALS")
+						&& !l.attr("abs:href").contains("SPORT")) {
 					trataNoticia(l.attr("abs:href"));
 				}
 			}
@@ -172,7 +173,8 @@ public class WebCrawler {
 				if (o.attr("abs:href").contains("edition.cnn.com")
 						&& !o.attr("abs:href").contains("video")
 						&& !o.attr("abs:href").contains("gallery")
-						&& !o.attr("abs:href").contains("SPECIALS")) {
+						&& !o.attr("abs:href").contains("SPECIALS")
+						&& !l.attr("abs:href").contains("SPORT")) {
 					trataNoticia(o.attr("abs:href"));
 				}
 			}
