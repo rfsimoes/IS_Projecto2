@@ -30,7 +30,7 @@ public class News implements Serializable {
 	private List<String> highlights;
 	private Date date;
 	
-	@ManyToMany(mappedBy="news")
+	@ManyToMany
 	private List<Author> authors;
 	
 	private String text;
@@ -42,6 +42,18 @@ public class News implements Serializable {
 	public News() {
 		super();
 	}   
+	
+	public News(String region, String title, String url, List<String> highlights, Date date, List<Author> authors, String text, String photoURL, String videoURL){
+		this.region = region;
+		this.title = title;
+		this.url = url;
+		this.highlights = highlights;
+		this.date = date;
+		this.authors = authors;
+		this.text = text;
+		this.photoURL = photoURL;
+		this.videoURL = videoURL;
+	}
 	
 	public Long getId() {
 		return this.id;

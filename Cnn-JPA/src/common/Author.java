@@ -18,11 +18,11 @@ public class Author implements Serializable {
 	private static final long serialVersionUID = 1L;
 	   
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	/*@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "authorid")
-	private Long id;
+	private Long id;*/
 	private String name;
-	@ManyToMany
+	@ManyToMany(mappedBy="authors")
 	private List<News> news;
 	
 
@@ -30,13 +30,17 @@ public class Author implements Serializable {
 		super();
 	}   
 	
+	public Author(String name){
+		this.name = name;
+	}
+	/*
 	public Long getId() {
 		return this.id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}   
+	}   */
 	public String getName() {
 		return this.name;
 	}
