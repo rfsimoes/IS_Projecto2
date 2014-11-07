@@ -76,9 +76,9 @@ public class MyMessageBean implements MessageListener {
 					List<Author> authors = new ArrayList<Author>();
 					for(String name:n.getAuthor()){
 						Author existe = em.find(Author.class, name);
+						Author a = new Author(name);
+						authors.add(a);
 						if(existe==null){
-							Author a = new Author(name);
-							authors.add(a);
 							em.persist(a);
 						}
 					}
