@@ -94,9 +94,6 @@ public class MyMessageBean implements MessageListener {
 				}
 			}
 			
-			User user = new User("amdinis","amd","André Dinis","andremdinis@gmail.com");
-			em.persist(user);
-			
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
