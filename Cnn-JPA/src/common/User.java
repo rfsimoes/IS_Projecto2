@@ -6,7 +6,6 @@ import java.lang.String;
 
 import javax.persistence.*;
 
-import org.hibernate.validator.internal.constraintvalidators.EmailValidator;
 
 /**
  * Entity implementation class for Entity: User
@@ -25,7 +24,7 @@ public class User implements Serializable {
 	private String username;
 	private String password;
 	private String name;
-	private EmailValidator email;
+	private String email;
 	
 
 	public User() {
@@ -59,11 +58,11 @@ public class User implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}   
-	public EmailValidator getEmail() {
+	public String getEmail() {
 		return this.email;
 	}
 
-	public void setEmail(EmailValidator email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
    
