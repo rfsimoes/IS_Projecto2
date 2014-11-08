@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Login Page</title>
+		<title>CNN - Login</title>
 		<script type="text/javascript" language="javascript">
             function validateForm() {
                 if (document.getElementById("username").value == "") {

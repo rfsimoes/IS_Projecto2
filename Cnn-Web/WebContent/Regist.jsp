@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Registration Page</title>
+		<title>CNN - Sign Up</title>
 		<script type="text/javascript" language="javascript">
             function validateForm() {
                 if (document.getElementById("username").value == "") {
@@ -33,7 +33,7 @@
 	<body bgcolor="#3498db">
 	
 		<center> 
-			<h1>Registo</h1>
+			<h1>Sign Up</h1>
 			
 			<form action="RegistServlet" method="POST" id="login_form" onsubmit="return validateForm()">
 				<p> Username <input type="text" name="username" id="username" /></p>
