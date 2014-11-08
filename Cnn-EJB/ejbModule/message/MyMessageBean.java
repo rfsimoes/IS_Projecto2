@@ -3,8 +3,6 @@ package message;
 import generated.Cnn;
 import generated.Region;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,23 +19,9 @@ import javax.persistence.PersistenceContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import common.Author;
 import common.News;
-import common.User;
 
 /**
  * Message-Driven Bean implementation class for: MyBean
@@ -114,26 +98,6 @@ public class MyMessageBean implements MessageListener {
 			e.printStackTrace();
 		}
 		
-		/*// Adicionar ao XML a referência ao XSLT
-
-		String msg = ((TextMessage) message).getText();
-		String aux = (msg.split("\\?>"))[0]
-				+ "?><?xml-stylesheet type=\"text/xsl\" href=\"Stylesheet.xsl\"?>"
-				+ msg.split("\\?>")[1];
-		TransformerFactory transformerFactory = TransformerFactory
-				.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		DocumentBuilderFactory factory = DocumentBuilderFactory
-				.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document doc = builder
-				.parse(new InputSource(new StringReader(aux)));
-		DOMSource source = new DOMSource(doc);
-		String ficheiroXML = "HTML_" + System.currentTimeMillis() + ".xml";
-		StreamResult result = new StreamResult(new File(ficheiroXML));
-		transformer.transform(source, result);
-
-		System.out.println("Ficheiro '" + ficheiroXML + "' criado.\n");*/
 	}
 
 }
