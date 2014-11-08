@@ -96,9 +96,9 @@ public class MyMessageBean implements MessageListener {
 					cal.set(Calendar.DATE, n.getDate().getDay());
 					cal.set(Calendar.HOUR_OF_DAY, n.getDate().getHour()/100);
 					cal.set(Calendar.MINUTE, n.getDate().getHour()%100);
-					java.sql.Date jsqlDate = new java.sql.Date(cal.getTime().getTime());
+					java.sql.Timestamp jsqlTs = new java.sql.Timestamp(cal.getTime().getTime());
 					// Criar nova notícia com a estrutura correspondente à da BD
-					News nova = new News(r.getName(), n.getTitle(), n.getUrl(), n.getHighlights(), jsqlDate, authors, n.getText(), n.getPhotoURL(), n.getVideoURL());
+					News nova = new News(r.getName(), n.getTitle(), n.getUrl(), n.getHighlights(), jsqlTs, authors, n.getText(), n.getPhotoURL(), n.getVideoURL());
 					// Adicionar notícia à BD
 					em.persist(nova);
 				}

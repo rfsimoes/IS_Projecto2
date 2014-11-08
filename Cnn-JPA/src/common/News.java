@@ -3,8 +3,9 @@ package common;
 import java.io.Serializable;
 import java.lang.Long;
 import java.lang.String;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
+
 import javax.persistence.*;
 
 /**
@@ -28,7 +29,7 @@ public class News implements Serializable {
 	@CollectionTable(name="newsHighlights", joinColumns=@JoinColumn(name="newsid"))
 	@Column(name = "highlight")
 	private List<String> highlights;
-	private Date date;
+	private Timestamp date;
 	
 	@ManyToMany
 	private List<Author> authors;
@@ -43,7 +44,7 @@ public class News implements Serializable {
 		super();
 	}   
 	
-	public News(String region, String title, String url, List<String> highlights, Date date, List<Author> authors, String text, String photoURL, String videoURL){
+	public News(String region, String title, String url, List<String> highlights, Timestamp date, List<Author> authors, String text, String photoURL, String videoURL){
 		this.region = region;
 		this.title = title;
 		this.url = url;
@@ -91,11 +92,11 @@ public class News implements Serializable {
 	public void setHighlights(List<String> highlights) {
 		this.highlights = highlights;
 	}   
-	public Date getDate() {
+	public Timestamp getDate() {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}   
 	public List<Author> getAuthors() {
