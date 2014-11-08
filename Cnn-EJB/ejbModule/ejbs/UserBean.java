@@ -36,9 +36,9 @@ public class UserBean implements UserBeanRemote {
      * @return true se existir, false caso contrário
      */
     public boolean login(String username, String password){
-    	Query query = em.createQuery("SELECT s FROM User s WHERE username=':u' AND password=':p'");
-    	query.setParameter("u", username);
-    	query.setParameter("p", password);
+    	Query query = em.createQuery("SELECT s FROM User s WHERE username='"+username+"' AND password='"+password+"'");
+    	/*query.setParameter("u", username);
+    	query.setParameter("p", password);*/
     	
     	@SuppressWarnings("unchecked")
 		List<User> users = query.getResultList();

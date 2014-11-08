@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ejbs.NewsBeanRemote;
+import ejbs.UserBeanRemote;
+
 /**
  * Servlet implementation class RegistServlet
  */
@@ -50,7 +53,7 @@ public class RegistServlet extends HttpServlet {
 					String password = request.getParameter("password");
 					String name = request.getParameter("name");
 					String email = request.getParameter("email");
-					if (username != null && password != null && name != null && email != null) {
+					if (username != "" && password != "" && name != "" && email != "") {
 						if (ubr.register(username, password, name, email) == true) {
 							dispatcher = request.getRequestDispatcher("/Login.jsp");
 						} else {
@@ -59,11 +62,11 @@ public class RegistServlet extends HttpServlet {
 							out.println("<script type=\"text/javascript\">");
 							out.println("alert('Falha ao efetuar registo! Possibilidade de utilizador já se encontrar existente!');");
 							out.println("</script>");
-							dispatcher = request.getRequestDispatcher("/Login.jsp");
+							dispatcher = request.getRequestDispatcher("/Regist.jsp");
 						}
 					}
+					dispatcher.forward(request, response);
 				} 
-				dispatcher.forward(request, response);
 			}
 		}
 

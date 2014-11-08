@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ejbs.NewsBeanRemote;
+import ejbs.UserBeanRemote;
+
 /**
  * Servlet implementation class LoginServlet
  */
@@ -22,6 +25,10 @@ public class LoginServlet extends HttpServlet {
 	NewsBeanRemote nbr;
 	@EJB
 	UserBeanRemote ubr;
+
+	public void init() {
+
+	}
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -35,41 +42,63 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = null;
 		HttpSession session;
 
-		if (request.getParameterMap().isEmpty() == false) {
-			String button = request.getParameter("SUBMIT");
-			if (button != null) {
-				if (button.equals("Login")) {
-					String username = request.getParameter("username");
-					String password = request.getParameter("password");
-					if (username != null && password != null) {
-						if (ubr.login(username, password) == true) {
-							session = request.getSession(true);
-							session.setAttribute("userBean", ubr);
-							session.setAttribute("newsBean", nbr);
-							dispatcher = request.getRequestDispatcher("/Menu.jsp");
-						} else {
-							PrintWriter out = response.getWriter();
-							response.setContentType("text/html");
-							out.println("<script type=\"text/javascript\">");
-							out.println("alert('Falha ao efetuarlogin! Possibilidade de username e/ou password não existirem!');");
-							out.println("</script>");
-							dispatcher = request.getRequestDispatcher("/Login.jsp");
-						}
-					}
-				dispatcher.forward(request, response);
+		PrintWriter ou = response.getWriter();
+		response.setContentType("text/html");
+		ou.println("<script type=\"text/javascript\">");
+		ou.println("console.log('chegou ao get');");
+		ou.println("</script>");
+
+
+
+		String username = request.getParameter("userName");
+		String password = request.getParameter("passWord");
+		if (username != "" && password != "") {
+			ou = response.getWriter();
+			response.setContentType("text/html");
+			ou.println("<script type=\"text/javascript\">");
+			ou.println("console.log('chegou ao get2');");
+			ou.println("</script>");
+			if (ubr.login(username, password) == true) {
+				ou = response.getWriter();
+				response.setContentType("text/html");
+				ou.println("<script type=\"text/javascript\">");
+				ou.println("console.log('chegou ao get3');");
+				ou.println("</script>");
+				session = request.getSession(true);
+				session.setAttribute("userBean", ubr);
+				session.setAttribute("newsBean", nbr);
+				dispatcher = request.getRequestDispatcher("/Menu.jsp");
+			} else {
+				dispatcher = request.getRequestDispatcher("/invalidUser.html");
 			}
+			dispatcher.forward(request, response);
 		}
+		else{
+			PrintWriter out = response.getWriter();
+			response.setContentType("text/html");
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Insira username/password');");
+			out.println("</script>");
+		}
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html");
+		out.println("<script type=\"text/javascript\">");
+		out.println("console.log('chegou ao post');");
+		out.println("</script>");
 		doGet(request, response);
 	}
 

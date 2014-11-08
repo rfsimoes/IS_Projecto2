@@ -12,8 +12,10 @@
 <h1 style="font-family:Viner Hand ITC; color:white; font-size:60px;" >Registration Page </h1>
 
 <form action="RegistServlet" method="POST">
-	<p style="color:black"> Username <input type="text" name="username" /></p>
-	<p style="color:black"> Password  <input type="password" name="password" /></p>
+	<p> Username <input type="text" name="username" /></p>
+	<p> Password  <input type="password" name="password" /></p>
+	<p> Name <input type="text" name="name" /></p>
+	<p> Email  <input type="password" name="email" /></p>
 	<input type="SUBMIT" style="Segoe Marker" value="Regist Account"/>
 </form>
 
@@ -21,7 +23,7 @@
 <br />
 
 
-<a style="color:black" href="index.jsp"> BACK!</a>
+<a style="color:black" href="Login.jsp"> BACK!</a>
 
 
 

@@ -13,8 +13,8 @@
 	<h1 style="font-family:Viner Hand ITC; color:white; font-size:60px;" >Login Page </h1>
 	
 	<form action="LoginServlet" method="POST">
-		<p style="color:black"> Username <input type="text" name="username" /></p>
-		<p style="color:black"> Password <input type="password" name="password" /></p>
+		<p>Username <input type="text" name="userName" /></p>
+		<p>Password <input type="password" name="passWord" /></p>
 		<input type="SUBMIT" style="Segoe Marker" value="Login"/>
 	</form>
 		
