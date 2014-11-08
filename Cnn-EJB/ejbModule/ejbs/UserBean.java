@@ -29,7 +29,8 @@ public class UserBean implements UserBeanRemote {
     
     
     /**
-     * Método para verificar se o login (username+password) existe
+     * Método para efetuar login.
+     * Verifica se o username e a password existem e combinam.
      * @param username
      * @param password
      * @return true se existir, false caso contrário
@@ -49,6 +50,12 @@ public class UserBean implements UserBeanRemote {
     }
     
     
+    /**
+     * Método para efetuar registo.
+     * Verifica se o username e o email já existem. Caso já existam, o registo não é feito.
+     * true se o registo for feito com sucesso, false caso contrário.
+     * 
+     */
     public boolean register(String username, String password, String name, String email){
     	if(checkUsername(username)==false && checkEmail(email)==false){
     		User novo = new User(username, password, name, email);
