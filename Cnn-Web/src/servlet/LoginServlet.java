@@ -26,49 +26,25 @@ public class LoginServlet extends HttpServlet {
 	@EJB
 	UserBeanRemote ubr;
 
-	public void init() {
-
-	}
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public LoginServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = null;
 		HttpSession session;
 
-		PrintWriter ou = response.getWriter();
-		response.setContentType("text/html");
-		ou.println("<script type=\"text/javascript\">");
-		ou.println("console.log('chegou ao get');");
-		ou.println("</script>");
-
-
-
-		String username = request.getParameter("userName");
-		String password = request.getParameter("passWord");
-		if (username != "" && password != "") {
-			ou = response.getWriter();
-			response.setContentType("text/html");
-			ou.println("<script type=\"text/javascript\">");
-			ou.println("console.log('chegou ao get2');");
-			ou.println("</script>");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		if (!username.isEmpty() && !password.isEmpty()) {
 			if (ubr.login(username, password) == true) {
-				ou = response.getWriter();
-				response.setContentType("text/html");
-				ou.println("<script type=\"text/javascript\">");
-				ou.println("console.log('chegou ao get3');");
-				ou.println("</script>");
 				session = request.getSession(true);
 				session.setAttribute("userBean", ubr);
 				session.setAttribute("newsBean", nbr);
@@ -76,15 +52,12 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				dispatcher = request.getRequestDispatcher("/invalidUser.html");
 			}
-			dispatcher.forward(request, response);
 		}
 		else{
-			PrintWriter out = response.getWriter();
-			response.setContentType("text/html");
-			out.println("<script type=\"text/javascript\">");
-			out.println("alert('Insira username/password');");
-			out.println("</script>");
+			dispatcher = request.getRequestDispatcher("/invalidUser.html");
 		}
+		
+		dispatcher.forward(request, response);
 
 	}
 
@@ -92,13 +65,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
-		response.setContentType("text/html");
-		out.println("<script type=\"text/javascript\">");
-		out.println("console.log('chegou ao post');");
-		out.println("</script>");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 

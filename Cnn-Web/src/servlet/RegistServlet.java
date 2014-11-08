@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.ejb.EJB;
-import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,36 +39,25 @@ public class RegistServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int control = 0;
-		Boolean regist;
 		RequestDispatcher dispatcher = null;
-		HttpSession session;
-
-		if (request.getParameterMap().isEmpty() == false) {
-			String button = request.getParameter("SUBMIT");
-			if (button != null) {
-				if (button.equals("Regist Account")) {
-					String username = request.getParameter("username");
-					String password = request.getParameter("password");
-					String name = request.getParameter("name");
-					String email = request.getParameter("email");
-					if (username != "" && password != "" && name != "" && email != "") {
-						if (ubr.register(username, password, name, email) == true) {
-							dispatcher = request.getRequestDispatcher("/Login.jsp");
-						} else {
-							PrintWriter out = response.getWriter();
-							response.setContentType("text/html");
-							out.println("<script type=\"text/javascript\">");
-							out.println("alert('Falha ao efetuar registo! Possibilidade de utilizador já se encontrar existente!');");
-							out.println("</script>");
-							dispatcher = request.getRequestDispatcher("/Regist.jsp");
-						}
-					}
-					dispatcher.forward(request, response);
-				} 
+		
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !email.isEmpty()) {
+			if (ubr.register(username, password, name, email) == true) {
+				dispatcher = request.getRequestDispatcher("/Login.jsp");
+			} else {
+				dispatcher = request.getRequestDispatcher("/invalidRegister.html");
 			}
 		}
-
+		else{
+			dispatcher = request.getRequestDispatcher("/invalidRegister.html");
+		}
+		
+		dispatcher.forward(request, response);
+				
 	}
 
 	/**
