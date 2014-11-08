@@ -92,7 +92,7 @@ public class MyMessageBean implements MessageListener {
 					// Preparar a data
 					Calendar cal = Calendar.getInstance();
 					cal.set(Calendar.YEAR, n.getDate().getYear());
-					cal.set(Calendar.MONTH, n.getDate().getMonth());
+					cal.set(Calendar.MONTH, n.getDate().getMonth()-1);
 					cal.set(Calendar.DATE, n.getDate().getDay());
 					cal.set(Calendar.HOUR_OF_DAY, n.getDate().getHour()/100);
 					cal.set(Calendar.MINUTE, n.getDate().getHour()%100);
