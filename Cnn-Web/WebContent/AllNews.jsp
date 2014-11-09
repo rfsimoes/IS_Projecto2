@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="common.News"%>
 <%@page import="common.User"%>
 <%@page import="ejbs.NewsBeanRemote"%>
@@ -21,26 +22,37 @@
         	User userdata = (User) session.getAttribute("user");
 
 	        NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
-
-        	List<News> news = newsbean.newsSortedByDate();
+	        
+	        List<String> regioes = new ArrayList<String>();
+	        List<News> allNews = newsbean.getNews();
+	        
+	        for(int i=0; i<allNews.size();i++){
+	        	if(!regioes.contains(allNews.get(i).getRegion())){
+	        		regioes.add(allNews.get(i).getRegion());
+	        	}
+	        }
+	        
+	        for(int j=0; j<regioes.size(); j++){
+	        	List<News> news = newsbean.newsSortedByDate(regioes.get(j));
         %>
-		
-		<table border="1" align="center">
-            <tr>
-                <th>Title</th>
-                <th>url</th>
-            </tr>
-            <%  	
-            	for(int i=0; i<news.size(); i++){ 
-            %>
-            <tr>
-                <td> <%= news.get(i).getTitle() %> </td>
-                <td align="center"> <%= news.get(i).getUrl() %> </td>
-            </tr>
-            <%
-                } 
-            %>
-        </table>
+				<h3><%= regioes.get(j) %></h3>
+				<table border="1" align="center">
+		            <tr>
+		                <th>Title</th>
+		                <th>url</th>
+		            </tr>
+		            <%  	
+		            	for(int i=0; i<news.size(); i++){ 
+		            %>
+		            <tr>
+		                <td> <%= news.get(i).getTitle() %> </td>
+		                <td align="center"> <%= news.get(i).getUrl() %> </td>
+		            </tr>
+		            <%
+		                }
+		            %>
+		        </table>
+		        <% } %>
         
         <br>
         <br> 

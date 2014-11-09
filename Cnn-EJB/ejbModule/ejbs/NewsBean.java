@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import common.News;
 
@@ -26,14 +27,29 @@ public class NewsBean implements NewsBeanRemote {
     
     
     /**
+     * Método para ir buscar todas as notícias
+     * @return lista de notícias
+     */
+    public List<News> getNews(){
+    	Query query = em.createQuery("SELECT n FROM News n");
+    	
+    	 @SuppressWarnings("unchecked")
+		List<News> news = query.getResultList();
+    	
+		return news;
+    }
+    
+   
+    /**
      * Método para ir buscar as notícias ordenadas por data (+ recentes primeiro)
      * @return lista de notícias ordenadas
      */
-    public List<News> newsSortedByDate(){
-    	String query = "SELECT n FROM News n ORDER BY region, date DESC";
-    	List<News> news = null;
+    public List<News> newsSortedByDate(String region){
+    	Query query = em.createQuery("SELECT n FROM News n WHERE region = :r ORDER BY date DESC");
+    	query.setParameter("r", region);
     	
-    	news = (List<News>) em.createQuery(query).getResultList();
+    	 @SuppressWarnings("unchecked")
+		List<News> news = query.getResultList();
     	
 		return news;
     }
@@ -45,10 +61,11 @@ public class NewsBean implements NewsBeanRemote {
      * @return lista de notícias ordenadas
      */
     public List<News> newsFromAuthor(String author){
-    	String query = "SELECT n FROM News n INNER JOIN n.authors a WHERE a.name LIKE '%"+author+"%' ORDER BY date DESC";
-    	List<News> news = null;
+    	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE a.name LIKE '%:author%' ORDER BY date DESC");
+    	query.setParameter("author", author);
     	
-    	news = (List<News>) em.createQuery(query).getResultList();
+    	@SuppressWarnings("unchecked")
+		List<News> news = query.getResultList();
     	
 		return news;
     }
@@ -60,10 +77,11 @@ public class NewsBean implements NewsBeanRemote {
      * @return lista de notícias ordenadas
      */
     public List<News> newsMoreRecentThan(String date){
-    	String query = "SELECT n FROM News n WHERE n.date > '"+date+"' ORDER BY date DESC";
-    	List<News> news = null;
+    	Query query = em.createQuery("SELECT n FROM News n WHERE n.date > :d ORDER BY date DESC");
+    	query.setParameter("d", date);
     	
-    	news = (List<News>) em.createQuery(query).getResultList();
+    	@SuppressWarnings("unchecked")
+		List<News> news = query.getResultList();
     	
 		return news;
     }
