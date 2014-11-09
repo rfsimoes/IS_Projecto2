@@ -91,5 +91,21 @@ public class UserBean implements UserBeanRemote {
 		}
 		return false;
 	}
+	
+	/*
+	 * Ir buscar um user
+	 * (Possível duplicado de checkUsername)
+	 */
+	public User getUser(String username){
+		Query query = em.createQuery("FROM User s WHERE s.username= :u");
+    	query.setParameter("u", username);
+		
+    	@SuppressWarnings("unchecked")
+		List<User> users = query.getResultList();
+		if (users.size() > 0) {
+			return users.get(0);
+		}
+		return null;
+	}
 
 }

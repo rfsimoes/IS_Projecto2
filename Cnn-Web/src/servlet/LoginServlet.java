@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.User;
+
 import ejbs.NewsBeanRemote;
 import ejbs.UserBeanRemote;
 
@@ -43,17 +45,14 @@ public class LoginServlet extends HttpServlet {
 
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		if (!username.isEmpty() && !password.isEmpty()) {
-			if (ubr.login(username, password) == true) {
-				session = request.getSession(true);
-				session.setAttribute("userBean", ubr);
-				session.setAttribute("newsBean", nbr);
-				dispatcher = request.getRequestDispatcher("/Menu.jsp");
-			} else {
-				dispatcher = request.getRequestDispatcher("/invalidUser.html");
-			}
-		}
-		else{
+		if (ubr.login(username, password) == true) {
+			session = request.getSession(true);
+			// Set the username and password of a new User object and add this object
+		    // to the session, using session.setAttribute(...)
+			User userData = ubr.getUser(username);
+			session.setAttribute("user", userData);
+			dispatcher = request.getRequestDispatcher("/Menu.jsp");
+		} else {
 			dispatcher = request.getRequestDispatcher("/invalidUser.html");
 		}
 		
