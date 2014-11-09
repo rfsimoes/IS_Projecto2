@@ -30,7 +30,7 @@ public class NewsBean implements NewsBeanRemote {
      * @return lista de notícias ordenadas
      */
     public List<News> newsSortedByDate(){
-    	String query = "SELECT n FROM News n ORDER BY date DESC";
+    	String query = "SELECT n FROM News n ORDER BY region, date DESC";
     	List<News> news = null;
     	
     	news = (List<News>) em.createQuery(query).getResultList();

@@ -51,6 +51,7 @@ public class LoginServlet extends HttpServlet {
 		    // to the session, using session.setAttribute(...)
 			User userData = ubr.getUser(username);
 			session.setAttribute("user", userData);
+			session.setAttribute("newsBean", nbr);
 			dispatcher = request.getRequestDispatcher("/Menu.jsp");
 		} else {
 			dispatcher = request.getRequestDispatcher("/invalidUser.html");
