@@ -33,6 +33,7 @@
 	        }
 	        
 	        for(int j=0; j<regioes.size(); j++){
+	        	List<News> newsAuthorRegion = newsbean.newsFromAuthor("Greg Botelho", regioes.get(j));
         %>
 				<h3><%= regioes.get(j) %></h3>
 				<table border="1" align="center">
@@ -41,11 +42,11 @@
 		                <th>url</th>
 		            </tr>
 		            <%  	
-		            	for(int i=0; i<newsAuthor.size(); i++){ 
+		            	for(int i=0; i<newsAuthorRegion.size(); i++){ 
 		            %>
 		            <tr>
-		                <td> <%= newsAuthor.get(i).getTitle() %> </td>
-		                <td align="center"> <%= newsAuthor.get(i).getUrl() %> </td>
+		                <td> <%= newsAuthorRegion.get(i).getTitle() %> </td>
+		                <td align="center"> <%= newsAuthorRegion.get(i).getUrl() %> </td>
 		            </tr>
 		            <%
 		                }

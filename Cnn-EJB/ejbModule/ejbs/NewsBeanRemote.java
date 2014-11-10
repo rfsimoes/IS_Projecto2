@@ -11,6 +11,7 @@ public interface NewsBeanRemote {
 	public List<News> getNews();
 	public List<News> newsSortedByDate(String region);
 	public List<News> newsFromAuthor(String author);
+	public List<News> newsFromAuthor(String author, String region);
 	public List<News> newsMoreRecentThan(String date);
 	public List<News> newsWithHighlightWord(String word);
 }

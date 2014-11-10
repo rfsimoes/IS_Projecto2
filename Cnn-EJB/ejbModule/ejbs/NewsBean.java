@@ -70,6 +70,22 @@ public class NewsBean implements NewsBeanRemote {
 		return news;
     }
     
+    /**
+     * Método para ir buscar as notícias de um autor
+     * @param author
+     * @return lista de notícias ordenadas
+     */
+    public List<News> newsFromAuthor(String author, String region){
+    	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE n.region LIKE :r AND a.name LIKE :author ORDER BY date DESC");
+    	query.setParameter("r", region);
+    	query.setParameter("author", author);
+    	
+    	@SuppressWarnings("unchecked")
+		List<News> news = query.getResultList();
+    	
+		return news;
+    }
+    
     
     /**
      * Método para ir buscar as notícias mais recentes que uma data
