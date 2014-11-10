@@ -61,7 +61,7 @@ public class NewsBean implements NewsBeanRemote {
      * @return lista de notícias ordenadas
      */
     public List<News> newsFromAuthor(String author){
-    	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE a.name LIKE '%:author%' ORDER BY date DESC");
+    	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE a.name LIKE :author ORDER BY date DESC");
     	query.setParameter("author", author);
     	
     	@SuppressWarnings("unchecked")
