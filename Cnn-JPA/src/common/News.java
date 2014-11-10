@@ -34,6 +34,7 @@ public class News implements Serializable {
 	@ManyToMany
 	private List<Author> authors;
 	
+	@Column(columnDefinition="TEXT")
 	private String text;
 	private String photoURL;
 	private String videoURL;
