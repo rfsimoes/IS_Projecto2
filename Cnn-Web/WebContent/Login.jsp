@@ -48,6 +48,15 @@
 		</nav>
 				
 		<center>
+		
+			<%
+				if(request.getParameter("unauthorized") != null){
+			%>
+					<div class="alert alert-danger" role="alert">Unauthorized access! Please login or sign up.</div>
+			<%
+				}
+			%>
+		
 			<h1>Login</h1>
 	
 			<form action="LoginServlet" method="POST" id="login_form" onsubmit="return validateForm()">

@@ -6,7 +6,7 @@
 	User user = (User) session.getAttribute("user");
 	if (user == null){
 %>
-		<jsp:forward page="/Login.jsp"></jsp:forward>
+		<jsp:forward page="/Login.jsp?unauthorized=1"></jsp:forward>
 <%
 	}
 %>

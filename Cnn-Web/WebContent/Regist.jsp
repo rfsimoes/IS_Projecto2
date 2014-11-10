@@ -4,6 +4,13 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>CNN - Sign Up</title>
+		
+		<!-- BOOTSTRAP -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
+		<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
+		
+		<!-- VERIFICAÇÃO DOS CAMPOS DO FORMULÁRIO -->
 		<script type="text/javascript" language="javascript">
             function validateForm() {
                 if (document.getElementById("username").value == "") {
@@ -30,7 +37,24 @@
         </script>
 	</head>
 	
-	<body bgcolor="#3498db">
+	<body>
+	
+		<!-- HEADER -->
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container">
+				<!-- Logo CNN -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
+						<i class="icon-reorder"></i>
+					</button>
+					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
+				</div>
+				<!-- Sign Up -->
+				<div class="nav navbar-nav navbar-right">
+					<a href="Login.jsp">Sign In</a>
+				</div>
+			</div>
+		</nav>
 	
 		<center> 
 			<h1>Sign Up</h1>

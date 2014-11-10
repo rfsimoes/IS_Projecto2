@@ -5,28 +5,71 @@
 
 <html>
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>CNN - Main Menu</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>CNN - Main Menu</title>
+		
+		<!-- BOOTSTRAP -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
+		<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
+		
+		<!-- VERIFICAÇÃO DOS CAMPOS DO FORMULÁRIO -->
+		<script type="text/javascript" language="javascript">
+            function validateForm(campo) {
+            	if(campo == 'author'){
+	                if (document.getElementById("authorName").value == "") {
+	                    alert("Author's name not defined");
+	                    document.getElementById("authorName").focus();
+	                    return false;
+	                }
+	                else{
+	                    document.getElementById("login_form").submit();
+	                }
+	            }
+            }
+        </script>
+	
 	</head>
+	
 	<body>
-		<h1>Welcome to CNN News</h1>
-		
 		<jsp:include page="auth_verification.jsp"></jsp:include>
+	
+		<!-- HEADER -->
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container">
+				<!-- Logo CNN -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
+						<i class="icon-reorder"></i>
+					</button>
+					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
+				</div>
+				<!-- Informação de Login -->
+				<%  
+					User userdata = (User) session.getAttribute("user");
+		        %>
+				<div class="nav navbar-nav navbar-right">
+					<pre>Logged as <strong><%= userdata.getUsername() %></strong></pre>
+					<a href="Logout.jsp">Logout</a>
+				</div>
+			</div>
+		</nav>
 		
-		<%  
-			User userdata = (User) session.getAttribute("user");
-        %>
+		<h1>Welcome to CNN News</h1>
 		
 		<div>
             <a href="AllNews.jsp">
                 List all the news
             </a>
         </div>
-        <div>
-            <a href="AuthorNews.jsp">
-                List news from an author
-            </a>
-        </div>
+        
+        <form action="AuthorNewsServlet" method="POST" id="login_form" onsubmit="return validateForm('author')">
+				<p>
+					List news from <input type="text" name="authorName" id="authorName" />
+					<input type="SUBMIT" value="Ok" />
+				</p>
+		</form>
+        
         <div>
             <a href="DateNews.jsp">
                 List news more recent than a date
@@ -37,9 +80,6 @@
                 List news which highlights contains a word
             </a>
         </div>
-        <br>
-        <br> 
-        <pre>Logged as <strong><%= userdata.getUsername() %></strong></pre>
 		
 	</body>
 </html>

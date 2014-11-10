@@ -14,9 +14,14 @@
 	<title>CNN News - Author News</title>
 	</head>
 	<body>
-		<h1>News from author: Greg Botelho</h1>
-		
 		<jsp:include page="auth_verification.jsp"></jsp:include>
+		
+		<%
+			String author = session.getAttribute("author").toString();
+		%>
+	
+		<h1>News from author: <%= author %></h1>
+		
 		
 		<%  
         	User userdata = (User) session.getAttribute("user");
@@ -24,7 +29,7 @@
 	        NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
 	        
 	        List<String> regioes = new ArrayList<String>();
-	        List<News> newsAuthor = newsbean.newsFromAuthor("Greg Botelho");
+	        List<News> newsAuthor = newsbean.newsFromAuthor(author);
 	        
 	        for(int i=0; i<newsAuthor.size();i++){
 	        	if(!regioes.contains(newsAuthor.get(i).getRegion())){
@@ -33,7 +38,7 @@
 	        }
 	        
 	        for(int j=0; j<regioes.size(); j++){
-	        	List<News> newsAuthorRegion = newsbean.newsFromAuthor("Greg Botelho", regioes.get(j));
+	        	List<News> newsAuthorRegion = newsbean.newsFromAuthor(author, regioes.get(j));
         %>
 				<h3><%= regioes.get(j) %></h3>
 				<table border="1" align="center">
