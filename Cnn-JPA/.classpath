@@ -2,13 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/André Diniz/Fac/5º Ano/IS/materialdeapoio/wildfly-8.1.0.Final/bin/client/jboss-client.jar"/>
-	<classpathentry kind="lib" path="C:/Users/André Diniz/Fac/5º Ano/IS/materialdeapoio/jsoup-1.8.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/WildFly 8.x Runtime">
-		<attributes>
-			<attribute name="owner.project.facets" value="jpt.jpa;jst.utility"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Ricardo Simões/Documents/Libraries/wildfly-8.1.0.Final/bin/client/jboss-client.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ricardo Simões/Documents/Libraries/jsoup-1.8.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/WildFly 8.x Runtime 2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.8.0_25">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>

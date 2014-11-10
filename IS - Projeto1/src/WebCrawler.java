@@ -37,7 +37,7 @@ public class WebCrawler {
 	public static void main(String[] args) throws InterruptedException {
 
 		// Tentar publicar logs
-		retryToPublish();
+		//retryToPublish();
 
 		// Fazer parsing do site da CNN
 		collectNews();
@@ -207,6 +207,7 @@ public class WebCrawler {
 		} catch (IOException e) {
 			//e.printStackTrace();
 			System.out.println("Cannot connect to " + url);
+			return;
 		}
 
 		// Título da notícia
