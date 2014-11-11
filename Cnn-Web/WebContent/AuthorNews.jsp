@@ -32,13 +32,20 @@
 					</button>
 					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
-				<!-- Informação de Login -->
+				<!-- Informação do utilizador -->
 				<%  
 					User userdata = (User) session.getAttribute("user");
 		        %>
-				<div class="nav navbar-nav navbar-right">
-					<pre>Logged as <strong><%= userdata.getUsername() %></strong></pre>
-					<a href="Logout.jsp">Logout</a>
+				<div class="btn-group nav navbar-nav navbar-right">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				    	Logged as <strong><%= userdata.getUsername() %></strong> <span class="caret"></span>
+				  	</button>
+				  	<ul class="dropdown-menu" role="menu">
+					    <li><a href="EditProfile.jsp">Edit profile</a></li>
+					    <li><a href="DeleteAccount.jsp">Delete account</a></li>
+					    <li class="divider"></li>
+					    <li><a href="Logout.jsp">Logout</a></li>
+				  	</ul>
 				</div>
 			</div>
 		</nav>
