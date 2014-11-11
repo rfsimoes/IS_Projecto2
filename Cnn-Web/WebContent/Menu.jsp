@@ -12,6 +12,8 @@
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
 		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
 		<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/dropdown.js"></script>
 		
 		<!-- VERIFICAÇÃO DOS CAMPOS DO FORMULÁRIO -->
 		<script type="text/javascript" language="javascript">
@@ -68,9 +70,17 @@
 				<%  
 					User userdata = (User) session.getAttribute("user");
 		        %>
-				<div class="nav navbar-nav navbar-right">
-					<pre>Logged as <strong><%= userdata.getUsername() %></strong></pre>
-					<a href="Logout.jsp">Logout</a>
+		        <!-- Informação do utilizador -->
+				<div class="btn-group nav navbar-nav navbar-right">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+				    	Logged as <strong><%= userdata.getUsername() %></strong> <span class="caret"></span>
+				  	</button>
+				  	<ul class="dropdown-menu" role="menu">
+					    <li><a href="#">Edit profile</a></li>
+					    <li><a href="#">Delete account</a></li>
+					    <li class="divider"></li>
+					    <li><a href="Logout.jsp">Logout</a></li>
+				  	</ul>
 				</div>
 			</div>
 		</nav>
