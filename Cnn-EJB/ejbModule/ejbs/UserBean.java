@@ -117,5 +117,10 @@ public class UserBean implements UserBeanRemote {
 		em.merge(user);
 		return user;
 	}
+	
+	public void deleteAccount(User user)
+	{
+		em.remove(user);
+	}
 
 }
