@@ -17,6 +17,8 @@
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
 		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
 		<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/dropdown.js"></script>
 		
 		</head>
 	<body>
@@ -30,7 +32,7 @@
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
 						<i class="icon-reorder"></i>
 					</button>
-					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
+					<a class="navbar-brand" href="Menu.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
 				<!-- Informação do utilizador -->
 				<%  

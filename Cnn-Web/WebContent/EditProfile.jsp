@@ -12,6 +12,8 @@
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
 		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
 		<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/dropdown.js"></script>
 		
 		<!-- VERIFICAÇÃO DOS CAMPOS DO FORMULÁRIO -->
 		<script type="text/javascript" language="javascript">
@@ -39,7 +41,7 @@
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
 						<i class="icon-reorder"></i>
 					</button>
-					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
+					<a class="navbar-brand" href="Menu.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
 				<!-- Informação do utilizador -->
 				<%  
@@ -68,17 +70,19 @@
 				<p> Email <input type="email" name="email" id="email" /></p>
 				<input type="SUBMIT" value="Ok"/>
 			</form>
-			
+			<br>
 			<%
-				if(request.getParameter("success") == "1"){
+				if(request.getParameter("success") != null){
+					if(request.getParameter("success").equals("1")){
 			%>
-					<div class="alert alert-success" role="alert">Profile updated!</div>
+						<div class="alert alert-success" role="alert">Profile updated!</div>
 			<%
-				}
-				else{
+					}
+					else if(request.getParameter("success").equals("0")){
 			%>
-					<div class="alert alert-danger" role="alert">Failed to edit profile: email already exists!</div>
+						<div class="alert alert-danger" role="alert">Failed to edit profile: email already exists!</div>
 			<%
+					}
 				}
 			%>
 		

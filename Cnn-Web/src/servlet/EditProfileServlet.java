@@ -41,7 +41,7 @@ public class EditProfileServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = null;
-		HttpSession session;
+		HttpSession session = request.getSession(true);;
 		
 		String newPassword = request.getParameter("password");
 		String newName = request.getParameter("name");
