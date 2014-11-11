@@ -49,6 +49,17 @@
 	                }
             	}
             }
+            
+            function confirmar(){
+            	var txt;
+                var r = confirm("Are you sure you want to delete your account?\nPress Ok to delete, Cancel to quit!");
+                if (r == true) {
+                    txt = "Ok";
+                    document.location.href="DeleteAccountServlet";
+                } else {
+                    txt = "Cancel";
+                }
+            }
         </script>
 	
 	</head>
@@ -76,7 +87,7 @@
 				  	</button>
 				  	<ul class="dropdown-menu" role="menu">
 					    <li><a href="EditProfile.jsp">Edit profile</a></li>
-					    <li><a href="DeleteAccount.jsp">Delete account</a></li>
+					    <li><a href="DeleteAccount.jsp" onclick="confirmar()">Delete account</a></li>
 					    <li class="divider"></li>
 					    <li><a href="Logout.jsp">Logout</a></li>
 				  	</ul>

@@ -12,24 +12,22 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.User;
-
-import ejbs.NewsBeanRemote;
 import ejbs.UserBeanRemote;
 
 /**
- * Servlet implementation class EditProfileServlet
+ * Servlet implementation class DeleteAccountServlet
  */
-@WebServlet("/EditProfileServlet")
-public class EditProfileServlet extends HttpServlet {
+@WebServlet("/DeleteAccountServlet")
+public class DeleteAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    
+       
 	@EJB
 	UserBeanRemote ubr;
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EditProfileServlet() {
+    public DeleteAccountServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,32 +39,11 @@ public class EditProfileServlet extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession(true);;
 		
-		String newPassword = request.getParameter("password");
-		String newName = request.getParameter("name");
-		String newEmail = request.getParameter("email");
-		
 		User user = (User) session.getAttribute("user");
 		
-		String currEmail = user.getEmail();
+		ubr.deleteAccount(user);
 		
-		if(newPassword.isEmpty()){
-			newPassword = user.getPassword();
-		}
-		if(newName.isEmpty()){
-			newName = user.getName();
-		}
-		if(newEmail.isEmpty()){
-			newEmail = currEmail;
-		}
-		
-		User atualizado = ubr.editAccount(user, newPassword, newName,currEmail, newEmail);
-		if(atualizado != null){
-			session.setAttribute("user", atualizado);
-			dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=1");
-		}
-		else{
-			dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=0");
-		}
+		dispatcher = request.getRequestDispatcher("/Logout.jsp");
 		
 		dispatcher.forward(request, response);
 	}
