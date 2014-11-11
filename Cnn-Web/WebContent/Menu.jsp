@@ -26,6 +26,26 @@
 	                    document.getElementById("login_form").submit();
 	                }
 	            }
+            	else if(campo == 'word'){
+            		if (document.getElementById("word").value == "") {
+	                    alert("Word not defined");
+	                    document.getElementById("word").focus();
+	                    return false;
+	                }
+	                else{
+	                    document.getElementById("login_form").submit();
+	                }
+            	}
+            	else if(campo == 'date'){
+            		if (document.getElementById("date").value == "") {
+	                    alert("Date not defined");
+	                    document.getElementById("date").focus();
+	                    return false;
+	                }
+	                else{
+	                    document.getElementById("login_form").submit();
+	                }
+            	}
             }
         </script>
 	
@@ -70,16 +90,19 @@
 				</p>
 		</form>
         
-        <div>
-            <a href="DateNews.jsp">
-                List news more recent than a date
-            </a>
-        </div>
-        <div>
-            <a href="HighlightNews.jsp">
-                List news which highlights contains a word
-            </a>
-        </div>
+        <form action="DateNewsServlet" method="GET" id="login_form" onsubmit="return validateForm('date')">
+				<p>
+					List news more recent than <input type="text" name="date" id="date" />
+					<input type="SUBMIT" value="Ok" />
+				</p>
+		</form>
+        
+		<form action="HighlightNewsServlet" method="POST" id="login_form" onsubmit="return validateForm('word')">
+				<p>
+					List news which highlights contains <input type="text" name="word" id="word" />
+					<input type="SUBMIT" value="Ok" />
+				</p>
+		</form>
 		
 	</body>
 </html>

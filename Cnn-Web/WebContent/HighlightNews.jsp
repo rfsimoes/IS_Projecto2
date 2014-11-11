@@ -10,18 +10,46 @@
 
 <html>
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>CNN News - Author News</title>
-	</head>
-	<body>
-		<h1>News which highlights contains: murder</h1>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>CNN News - Author News</title>
 		
+		<!-- BOOTSTRAP -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
+		<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
+		
+		</head>
+	<body>
 		<jsp:include page="auth_verification.jsp"></jsp:include>
 		
+		<!-- HEADER -->
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="container">
+				<!-- Logo CNN -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
+						<i class="icon-reorder"></i>
+					</button>
+					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
+				</div>
+				<!-- Informação de Login -->
+				<%  
+					User userdata = (User) session.getAttribute("user");
+		        %>
+				<div class="nav navbar-nav navbar-right">
+					<pre>Logged as <strong><%= userdata.getUsername() %></strong></pre>
+					<a href="Logout.jsp">Logout</a>
+				</div>
+			</div>
+		</nav>
+	
+		<%
+			String word = session.getAttribute("word").toString();
+		%>
+		<h1>News which highlights contains: <%= word %></h1>
+		
 		<%  
-        	User userdata = (User) session.getAttribute("user");
-
-	        NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
+        	NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
 	        
 	        List<String> regioes = new ArrayList<String>();
 	        List<News> allNews = newsbean.getNews();
@@ -29,7 +57,7 @@
 	        
 	        for(int i=0; i<allNews.size();i++){
 	        	for(int j=0; j<allNews.get(i).getHighlights().size(); j++){
-	        		if(allNews.get(i).getHighlights().get(j).contains("murder")){
+	        		if(allNews.get(i).getHighlights().get(j).contains(word)){
 	        			highlightNews.add(allNews.get(i));
 	        			if(!regioes.contains(allNews.get(i).getRegion())){
 	    	        		regioes.add(allNews.get(i).getRegion());
@@ -60,10 +88,6 @@
 		            %>
 		        </table>
 		        <% } %>
-        
-        <br>
-        <br> 
-        <pre>Logged as <strong><%= userdata.getUsername() %></strong></pre>
         
 	</body>
 </html>
