@@ -87,7 +87,7 @@
 				  	</button>
 				  	<ul class="dropdown-menu" role="menu">
 					    <li><a href="EditProfile.jsp">Edit profile</a></li>
-					    <li><a href="DeleteAccount.jsp" onclick="confirmar()">Delete account</a></li>
+					    <li><a onclick="return confirmar()">Delete account</a></li>
 					    <li class="divider"></li>
 					    <li><a href="Logout.jsp">Logout</a></li>
 				  	</ul>
