@@ -9,6 +9,7 @@
 <%@page import="javax.naming.InitialContext" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 	<head>
@@ -84,7 +85,7 @@
 	        		regioes.add(allNews.get(i).getRegion());
 	        	}
 	        }
-	        
+	       	
 	        // Para cada região, apresenta as notícias ordenadas por data (as mais recentes primeiro)
 	        for(int j=0; j<regioes.size(); j++){
 	        	List<News> news = newsbean.newsSortedByDate(regioes.get(j));
@@ -111,8 +112,11 @@
 							<div id="collapse${news.region}${status.index}" class="panel-collapse collapse">
 								<div class="panel-body">
 									<!-- Autor(es) -->
-									<!--
-									<c:set var="numAuthors" value="${count}" scope="session"/>
+									<!-- 
+									<c:set var="string2" value="This is second String."/>
+									<c:set var="numAuthors" value="${fn:length(string2)}"/>
+									<p>Length of String (2) : ${numAuthors}</p>
+									
 							  		<c:if test="${numAuthors > 0}">
  							  			by 
 								  		<c:choose>
@@ -130,7 +134,7 @@
 									 -->
 									<!-- Data -->
  									on 
-									<c:out value="${news.date}"/>
+ 									<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${news.date}" />
 									<br><br>
 									<!-- Highlights -->
 									<ul>
@@ -142,7 +146,7 @@
 							    	<div class="row"> 
 									  	<div class="col-xs-5"> 
 									  		<c:if test="${news.photoURL != ''}">
-								  				<a href="${news.photoURL}" class="thumbnail">
+								  				<a href="${news.photoURL}" class="thumbnail" target="_blank">
 										      		<img src="${news.photoURL}"/>
 										    	</a>
 									  		</c:if>
@@ -151,7 +155,7 @@
 									<!-- Video -->
 									<div class="video">
 										<c:if test="${news.videoURL != ''}">
-								  			<a class="btn btn-primary btn-lg" role="button" href="${news.videoURL}"><span class="glyphicon glyphicon-film"></span> Video</a>
+								  			<a class="btn btn-primary btn-lg" role="button" href="${news.videoURL}" target="_blank"><span class="glyphicon glyphicon-film"></span> Video</a>
 								  		</c:if>
 									</div>
 									<br>
