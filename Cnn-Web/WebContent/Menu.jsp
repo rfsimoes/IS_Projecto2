@@ -112,7 +112,7 @@
         
         <form action="DateNewsServlet" method="GET" id="login_form" onsubmit="return validateForm('date')">
 				<p>
-					List news more recent than <input type="text" name="date" id="date" />
+					List news more recent than <input type="datetime-local" name="date" id="date" />
 					<input type="SUBMIT" value="Ok" />
 				</p>
 		</form>

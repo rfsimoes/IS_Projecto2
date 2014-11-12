@@ -113,9 +113,6 @@
 								<div class="panel-body">
 									<!-- Autor(es) -->
 									<!-- 
-									<c:set var="string2" value="This is second String."/>
-									<c:set var="numAuthors" value="${fn:length(string2)}"/>
-									<p>Length of String (2) : ${numAuthors}</p>
 									
 							  		<c:if test="${numAuthors > 0}">
  							  			by 
@@ -131,7 +128,7 @@
 											</c:otherwise>
 										</c:choose>
 									</c:if>
-									 -->
+									-->
 									<!-- Data -->
  									on 
  									<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${news.date}" />

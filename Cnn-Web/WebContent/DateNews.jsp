@@ -54,6 +54,7 @@
 		
 		<% 
 			String date = session.getAttribute("date").toString();
+			//System.out.println("DATA: " + date);
 		%>
 		<h1>News more recent than <%= date %></h1>
 		
