@@ -94,9 +94,10 @@
 	        	//pageContext.setAttribute("count", count);
         %>
         
-        <!-- CONTEUDO -->
+        		<!-- CONTEUDO -->
         		<!-- Região -->
-				<h1 id="<%= regioes.get(j) %>"><%= regioes.get(j) %></h1>
+				<c:set var="regiao" value="<%= regioes.get(j) %>"/>
+				<h1 id="<%= regioes.get(j) %>">${regiao}</h1>
 				<div class="panel-group" id="accordion">
 					<!-- Notícias -->
 				    <c:forEach var="news" items="${newsList}" varStatus="status">

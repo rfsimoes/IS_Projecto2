@@ -7,6 +7,9 @@
 <%@page import="common.User"%>
 <%@page import="ejbs.NewsBeanRemote"%>
 <%@page import="javax.naming.InitialContext" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 	<head>
@@ -19,6 +22,10 @@
 		<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script language="javascript" type="text/javascript" src="bootstrap/js/dropdown.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/transition.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/collapse.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 		
 	</head>
 	<body>
@@ -38,16 +45,30 @@
 				<%  
 					User userdata = (User) session.getAttribute("user");
 		        %>
-				<div class="btn-group nav navbar-nav navbar-right">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-				    	Logged as <strong><%= userdata.getUsername() %></strong> <span class="caret"></span>
-				  	</button>
-				  	<ul class="dropdown-menu" role="menu">
-					    <li><a href="EditProfile.jsp">Edit profile</a></li>
-					    <li><a href="DeleteAccount.jsp">Delete account</a></li>
-					    <li class="divider"></li>
-					    <li><a href="Logout.jsp">Logout</a></li>
-				  	</ul>
+				<div class="collapse navbar-collapse navbar-menu">
+					<div class="nav navbar-nav navbar-right">
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="#US">US</a></li>
+							<li><a href="#AFRICA">AFRICA</a></li>
+							<li><a href="#ASIA">ASIA</a></li>
+							<li><a href="#EUROPE">EUROPE</a></li>
+							<li><a href="#LATINAMERICA">LATIN AMERICA</a></li>
+							<li><a href="#MIDDLEEAST">MIDDLE EAST</a></li>
+							<li>
+								<div class="btn-group">
+									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								    	Logged as <strong><%= userdata.getUsername() %></strong> <span class="caret"></span>
+								  	</button>
+								  	<ul class="dropdown-menu" role="menu">
+									    <li><a href="EditProfile.jsp">Edit profile</a></li>
+									    <li><a href="DeleteAccount.jsp">Delete account</a></li>
+									    <li class="divider"></li>
+									    <li><a href="Logout.jsp">Logout</a></li>
+								  	</ul>
+							  	</div>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</nav>
@@ -72,24 +93,86 @@
 	        
 	        for(int j=0; j<regioes.size(); j++){
 	        	List<News> newsDateRegion = newsbean.newsMoreRecentThan(date, regioes.get(j));
+	        	pageContext.setAttribute("newsList", newsDateRegion);
         %>
-				<h3><%= regioes.get(j) %></h3>
-				<table border="1" align="center">
-		            <tr>
-		                <th>Title</th>
-		                <th>url</th>
-		            </tr>
-		            <%  	
-		            	for(int i=0; i<newsDateRegion.size(); i++){ 
-		            %>
-		            <tr>
-		                <td> <%= newsDateRegion.get(i).getTitle() %> </td>
-		                <td align="center"> <%= newsDateRegion.get(i).getUrl() %> </td>
-		            </tr>
-		            <%
-		                }
-		            %>
-		        </table>
+				<!-- CONTEUDO -->
+        		<!-- Região -->
+				<c:set var="regiao" value="<%= regioes.get(j) %>"/>
+				<h1 id="<%= regioes.get(j) %>">${regiao}</h1>
+				<div class="panel-group" id="accordion">
+					<!-- Notícias -->
+				    <c:forEach var="news" items="${newsList}" varStatus="status">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<!-- Título da notícia -->
+								<h3 class="panel-title">
+								    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse${news.region}${status.index}">
+								    	<c:out value="${news.title}"/>
+								    </a>
+								</h3>
+							</div>
+							<div id="collapse${news.region}${status.index}" class="panel-collapse collapse">
+								<div class="panel-body">
+									<!-- Autor(es) -->
+									<!-- 
+									
+							  		<c:if test="${numAuthors > 0}">
+ 							  			by 
+								  		<c:choose>
+											<c:when test="${numAuthors==1}">
+												<b><c:out value="${news.authors[0]}"/></b>,
+											</c:when>
+											<c:when test="${numAuthors==2}">
+												<b><c:out value="${news.authors[0]}"/></b> and <b><c:out value="${news.authors[1]}"/></b>,
+											</c:when >
+											<c:otherwise>
+												<b><c:out value="${news.authors[0]}"/></b>, <b><c:out value="${news.authors[1]}"/></b> and <b>c:out value="${news.authors[2]}"/></b>,
+											</c:otherwise>
+										</c:choose>
+									</c:if>
+									-->
+									<!-- Data -->
+ 									on 
+ 									<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${news.date}" />
+									<br><br>
+									<!-- Highlights -->
+									<ul>
+										<c:forEach var="highlight" items="${news.highlights}" varStatus="hlstatus">
+							    			<li><c:out value="${highlight}"/></li>
+							    		</c:forEach>
+								    </ul>
+									<!-- Foto -->
+							    	<div class="row"> 
+									  	<div class="col-xs-5"> 
+									  		<c:if test="${news.photoURL != ''}">
+								  				<a href="${news.photoURL}" class="thumbnail" target="_blank">
+										      		<img src="${news.photoURL}"/>
+										    	</a>
+									  		</c:if>
+								  		</div>
+									</div>
+									<!-- Video -->
+									<div class="video">
+										<c:if test="${news.videoURL != ''}">
+								  			<a class="btn btn-primary btn-lg" role="button" href="${news.videoURL}" target="_blank"><span class="glyphicon glyphicon-film"></span> Video</a>
+								  		</c:if>
+									</div>
+									<br>
+									<!-- Texto da notícia -->
+									<div class="texto">
+										<c:out value="${news.text}"/>
+									</div>
+									<br>
+									<!-- Fonte -->
+									<div class="source">
+										Source: <a href="${news.url}" style="color: #FF0000" target="_blank">CNN</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</c:forEach>
+				</div>
 		        <% } %>
         
 	</body>
