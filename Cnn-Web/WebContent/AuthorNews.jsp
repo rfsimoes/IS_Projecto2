@@ -115,23 +115,21 @@
 							<div id="collapse${news.region}${status.index}" class="panel-collapse collapse">
 								<div class="panel-body">
 									<!-- Autor(es) -->
-									<!-- 
-									
-							  		<c:if test="${numAuthors > 0}">
+									<c:set var="numAuthors" value="${fn:length(news.authors)}"/>
+									<c:if test="${numAuthors > 0}">
  							  			by 
 								  		<c:choose>
 											<c:when test="${numAuthors==1}">
-												<b><c:out value="${news.authors[0]}"/></b>,
+												<b><c:out value="${news.authors[0].name}"/></b>,
 											</c:when>
 											<c:when test="${numAuthors==2}">
-												<b><c:out value="${news.authors[0]}"/></b> and <b><c:out value="${news.authors[1]}"/></b>,
+												<b><c:out value="${news.authors[0].name}"/></b> and <b><c:out value="${news.authors[1].name}"/></b>,
 											</c:when >
 											<c:otherwise>
-												<b><c:out value="${news.authors[0]}"/></b>, <b><c:out value="${news.authors[1]}"/></b> and <b>c:out value="${news.authors[2]}"/></b>,
+												<b><c:out value="${news.authors[0].name}"/></b>, <b><c:out value="${news.authors[1].name}"/></b> and <b>c:out value="${news.authors[2].name}"/></b>,
 											</c:otherwise>
 										</c:choose>
 									</c:if>
-									-->
 									<!-- Data -->
  									on 
  									<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${news.date}" />

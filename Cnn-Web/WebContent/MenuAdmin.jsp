@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>CNN - Edit Profile</title>
+		<title>CNN - Main Menu</title>
 		
 		<!-- BOOTSTRAP -->
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
@@ -18,20 +18,22 @@
 		<!-- VERIFICAÇÃO DOS CAMPOS DO FORMULÁRIO -->
 		<script type="text/javascript" language="javascript">
             function validateForm() {
-                if (document.getElementById("password").value == ""
-                		&& document.getElementById("name").value == ""
-                		&& document.getElementById("email").value == "") {
-                    alert("All the fields are empty");
+            	if (document.getElementById("editUser").value == "") {
+                    alert("User's name not defined");
+                    document.getElementById("editUser").focus();
                     return false;
                 }
-                else{
+            	else{
                     document.getElementById("login_form").submit();
                 }
+            	
             }
         </script>
+	
 	</head>
 	
 	<body>
+		<jsp:include page="auth_verification.jsp"></jsp:include>
 	
 		<!-- HEADER -->
 		<nav class="navbar navbar-default" role="navigation">
@@ -41,9 +43,9 @@
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
 						<i class="icon-reorder"></i>
 					</button>
-					<a class="navbar-brand" href="Menu.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
+					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
-				<!-- Informação do utilizador -->
+		        <!-- Informação do utilizador -->
 				<%  
 					User userdata = (User) session.getAttribute("user");
 		        %>
@@ -52,40 +54,20 @@
 				    	Logged as <strong><%= userdata.getUsername() %></strong> <span class="caret"></span>
 				  	</button>
 				  	<ul class="dropdown-menu" role="menu">
-					    <li><a href="EditProfile.jsp">Edit profile</a></li>
-					    <li><a href="DeleteAccount.jsp">Delete account</a></li>
-					    <li class="divider"></li>
 					    <li><a href="Logout.jsp">Logout</a></li>
 				  	</ul>
 				</div>
 			</div>
 		</nav>
-	
-		<center> 
-			<h1>Edit profile</h1>
-			
-			<form action="EditProfileServlet" method="POST" id="login_form" onsubmit="return validateForm()">
-				<p> Password <input type="password" name="password" id="password" /></p>
-				<p> Name <input type="text" name="name" id="name" placeholder="<%= userdata.getName() %>"/></p>
-				<p> Email <input type="email" name="email" id="email" placeholder="<%= userdata.getEmail() %>"/></p>
-				<input type="SUBMIT" value="Ok"/>
-			</form>
-			<br>
-			<%
-				if(request.getParameter("success") != null){
-					if(request.getParameter("success").equals("1")){
-			%>
-						<div class="alert alert-success" role="alert">Profile updated!</div>
-			<%
-					}
-					else if(request.getParameter("success").equals("0")){
-			%>
-						<div class="alert alert-danger" role="alert">Failed to edit profile: email already exists!</div>
-			<%
-					}
-				}
-			%>
 		
-		</center>
+		<h1>Welcome to CNN News</h1>
+        
+        <form action="AdminEditServlet" method="POST" id="login_form" onsubmit="return validateForm()">
+				<p>
+					Edit user <input type="text" name="editUser" id="editUser" />
+					<input type="SUBMIT" value="Ok" />
+				</p>
+		</form>
+		
 	</body>
 </html>

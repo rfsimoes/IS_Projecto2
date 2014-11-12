@@ -53,7 +53,12 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("user", userData);
 			session.setAttribute("newsBean", nbr);
 			session.setAttribute("userBean", ubr);
-			dispatcher = request.getRequestDispatcher("/Menu.jsp");
+			if(username.equals("admin")){
+				dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
+			}
+			else{
+				dispatcher = request.getRequestDispatcher("/Menu.jsp");
+			}
 		} else {
 			dispatcher = request.getRequestDispatcher("/invalidUser.html");
 		}

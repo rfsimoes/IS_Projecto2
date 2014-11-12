@@ -31,7 +31,7 @@ public class News implements Serializable {
 	private List<String> highlights;
 	private Timestamp date;
 	
-	@ManyToMany
+	@ManyToMany(fetch=FetchType.EAGER)
 	private List<Author> authors;
 	
 	@Column(columnDefinition="TEXT")
