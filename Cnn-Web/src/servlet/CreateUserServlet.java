@@ -16,19 +16,19 @@ import common.User;
 import ejbs.UserBeanRemote;
 
 /**
- * Servlet implementation class DeleteAccountServlet
+ * Servlet implementation class CreateUserServlet
  */
-@WebServlet("/DeleteAccountServlet")
-public class DeleteAccountServlet extends HttpServlet {
+@WebServlet("/CreateUserServlet")
+public class CreateUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	
 	@EJB
 	UserBeanRemote ubr;
-	
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteAccountServlet() {
+    public CreateUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -40,19 +40,16 @@ public class DeleteAccountServlet extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession(true);
 		
-		if(request.getParameter("admin") != null){
-			User userToRemove = ubr.getUser(request.getParameter("admin"));
-			ubr.deleteAccount(userToRemove);
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		if (ubr.register(username, password, name, email) == true) {
 			List<User> utilizadores = ubr.getAllUsers();
 			session.setAttribute("utilizadores", utilizadores);
 			dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
-		}
-		else{
-			User user = (User) session.getAttribute("user");
-			
-			ubr.deleteAccount(user);
-			
-			dispatcher = request.getRequestDispatcher("/Logout.jsp");
+		} else {
+			dispatcher = request.getRequestDispatcher("/CreateUser.jsp?fail=1");
 		}
 		
 		dispatcher.forward(request, response);

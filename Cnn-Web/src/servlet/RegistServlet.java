@@ -45,16 +45,13 @@ public class RegistServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		if (!username.isEmpty() && !password.isEmpty() && !name.isEmpty() && !email.isEmpty()) {
-			if (ubr.register(username, password, name, email) == true) {
-				dispatcher = request.getRequestDispatcher("/Login.jsp");
-			} else {
-				dispatcher = request.getRequestDispatcher("/invalidRegister.html");
-			}
+		
+		if (ubr.register(username, password, name, email) == true) {
+			dispatcher = request.getRequestDispatcher("/Login.jsp");
+		} else {
+			dispatcher = request.getRequestDispatcher("/Regist.jsp?fail=1");
 		}
-		else{
-			dispatcher = request.getRequestDispatcher("/invalidRegister.html");
-		}
+		
 		
 		dispatcher.forward(request, response);
 				

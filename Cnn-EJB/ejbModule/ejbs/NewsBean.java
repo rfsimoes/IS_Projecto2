@@ -50,7 +50,7 @@ public class NewsBean implements NewsBeanRemote {
     	
     	 @SuppressWarnings("unchecked")
 		List<News> news = query.getResultList();
-    	
+    	System.out.println(news.get(0).toString());
 		return news;
     }
     
@@ -93,8 +93,7 @@ public class NewsBean implements NewsBeanRemote {
      * @return lista de notícias ordenadas
      */
     public List<News> newsMoreRecentThan(String date){
-    	Query query = em.createQuery("SELECT n FROM News n WHERE n.date > :d ORDER BY date DESC");
-    	query.setParameter("d", date);
+    	Query query = em.createQuery("SELECT n FROM News n WHERE n.date > '"+date+"' ORDER BY date DESC");
     	
     	@SuppressWarnings("unchecked")
 		List<News> news = query.getResultList();
@@ -103,9 +102,8 @@ public class NewsBean implements NewsBeanRemote {
     }
     
     public List<News> newsMoreRecentThan(String date, String region){
-    	Query query = em.createQuery("SELECT n FROM News n WHERE n.region LIKE :r AND n.date > :d ORDER BY date DESC");
+    	Query query = em.createQuery("SELECT n FROM News n WHERE n.region LIKE :r AND n.date > '"+date+"' ORDER BY date DESC");
     	query.setParameter("r", region);
-    	query.setParameter("d", date);
     	
     	@SuppressWarnings("unchecked")
 		List<News> news = query.getResultList();

@@ -87,7 +87,7 @@
 				  	</button>
 				  	<ul class="dropdown-menu" role="menu">
 					    <li><a href="EditProfile.jsp">Edit profile</a></li>
-					    <li><a href="DeleteAccount.jsp" onclick="confirmar()">Delete account</a></li>
+					    <li><a onclick="return confirmar()">Delete account</a></li>
 					    <li class="divider"></li>
 					    <li><a href="Logout.jsp">Logout</a></li>
 				  	</ul>
@@ -95,34 +95,44 @@
 			</div>
 		</nav>
 		
-		<h1>Welcome to CNN News</h1>
-		
-		<div>
-            <a href="AllNews.jsp">
-                List all the news
-            </a>
-        </div>
-        
-        <form action="AuthorNewsServlet" method="POST" id="login_form" onsubmit="return validateForm('author')">
-				<p>
-					List news from <input type="text" name="authorName" id="authorName" />
-					<input type="SUBMIT" value="Ok" />
-				</p>
-		</form>
-        
-        <form action="DateNewsServlet" method="GET" id="login_form" onsubmit="return validateForm('date')">
-				<p>
-					List news more recent than <input type="text" name="date" id="date" />
-					<input type="SUBMIT" value="Ok" />
-				</p>
-		</form>
-        
-		<form action="HighlightNewsServlet" method="POST" id="login_form" onsubmit="return validateForm('word')">
-				<p>
-					List news which highlights contains <input type="text" name="word" id="word" />
-					<input type="SUBMIT" value="Ok" />
-				</p>
-		</form>
-		
+		<center>
+			<h2>Welcome to CNN News</h2>
+			<h4>What do you want to do?</h4>
+			
+			<br>
+			
+			<div>
+	            <a href="AllNews.jsp" style="display: inline-block; color: #0000ff; text-decoration: none">
+	                List all the news
+	            </a>
+	        </div>
+	        
+	        <br>
+	        
+	        <form action="AuthorNewsServlet" method="POST" id="login_form" onsubmit="return validateForm('author')">
+					<p>
+						List news from <input type="text" name="authorName" id="authorName" placeholder="author's name"/>
+						<input type="SUBMIT" value="Ok" />
+					</p>
+			</form>
+	        
+	        <br>
+	        
+	        <form action="DateNewsServlet" method="GET" id="login_form" onsubmit="return validateForm('date')">
+					<p>
+						List news more recent than <input type="datetime-local" name="date" id="date" />
+						<input type="SUBMIT" value="Ok" />
+					</p>
+			</form>
+	        
+	        <br>
+	        
+			<form action="HighlightNewsServlet" method="POST" id="login_form" onsubmit="return validateForm('word')">
+					<p>
+						List news which highlights contains <input type="text" name="word" id="word" placeholder="word"/>
+						<input type="SUBMIT" value="Ok" />
+					</p>
+			</form>
+		</center>
 	</body>
 </html>

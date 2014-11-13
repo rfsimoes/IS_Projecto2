@@ -10,6 +10,13 @@ section {
 	padding: 150px 0;
 }
 
+.my_container{
+	padding-right: 15px;
+  	padding-left: 15px;
+  	margin-right: auto;
+  	margin-left: auto;
+}
+
 .navbar-default{
 	padding: 10px 0;
 	border: 0;

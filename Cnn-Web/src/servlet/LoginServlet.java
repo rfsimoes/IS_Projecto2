@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.User;
-
 import ejbs.NewsBeanRemote;
 import ejbs.UserBeanRemote;
 
@@ -53,9 +53,16 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("user", userData);
 			session.setAttribute("newsBean", nbr);
 			session.setAttribute("userBean", ubr);
-			dispatcher = request.getRequestDispatcher("/Menu.jsp");
+			if(username.equals("admin")){
+				List<User> utilizadores = ubr.getAllUsers();
+				session.setAttribute("utilizadores", utilizadores);
+				dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
+			}
+			else{
+				dispatcher = request.getRequestDispatcher("/Menu.jsp");
+			}
 		} else {
-			dispatcher = request.getRequestDispatcher("/invalidUser.html");
+			dispatcher = request.getRequestDispatcher("/Login.jsp?fail=1");
 		}
 		
 		dispatcher.forward(request, response);

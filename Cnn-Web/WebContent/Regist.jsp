@@ -71,6 +71,18 @@
 			<br/>
 				
 			<a style="color:black" href="Login.jsp">Already have an account? <strong>Sign In</strong></a>
+			
+			<br><br>
+			
+			<%
+				if(request.getParameter("fail") != null){
+			%>
+					<div class="container">
+						<div class="alert alert-danger" role="alert">Failed to create account: username/email already exists!</div>
+					</div>
+			<%
+				}
+			%>
 		
 		</center>
 	</body>
