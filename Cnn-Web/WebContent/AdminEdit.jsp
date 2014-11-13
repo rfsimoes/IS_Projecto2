@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@page import="common.User"%>
+<%@page import="ejbs.UserBeanRemote"%>
 
 <html>
 	<head>
@@ -26,17 +27,6 @@
                 }
                 else{
                     document.getElementById("login_form").submit();
-                }
-            }
-            
-            function confirmar(){
-            	var txt;
-                var r = confirm("Are you sure you want to delete your account?\nPress Ok to delete, Cancel to quit!");
-                if (r == true) {
-                    txt = "Ok";
-                    document.location.href="DeleteAccountServlet";
-                } else {
-                    txt = "Cancel";
                 }
             }
         </script>
@@ -64,9 +54,6 @@
 				    	Logged as <strong><%= userdata.getUsername() %></strong> <span class="caret"></span>
 				  	</button>
 				  	<ul class="dropdown-menu" role="menu">
-					    <li><a href="EditProfile.jsp">Edit profile</a></li>
-					    <li><a onclick="return confirmar()">Delete account</a></li>
-					    <li class="divider"></li>
 					    <li><a href="Logout.jsp">Logout</a></li>
 				  	</ul>
 				</div>
@@ -76,11 +63,16 @@
 		<center> 
 			<h1>Edit profile</h1>
 			
-			<form action="EditProfileServlet" method="POST" id="login_form" onsubmit="return validateForm()">
-				<p> Username <input type="text" id="disabledInput" placeholder="<%= userdata.getUsername() %>" disabled></p>
+			<%
+				UserBeanRemote ubr = (UserBeanRemote) session.getAttribute("userbean");
+				User userToEdit = ubr.getUser(request.getParameter("user"));
+			%>
+			
+			<form action="EditProfileServlet?admin=<%= userToEdit %>" method="POST" id="login_form" onsubmit="return validateForm()">
+				<p> Username <input type="text" id="disabledInput" placeholder="<%= userToEdit.getUsername() %>" disabled></p>
 				<p> Password <input type="password" name="password" id="password" /></p>
-				<p> Name <input type="text" name="name" id="name" placeholder="<%= userdata.getName() %>"/></p>
-				<p> Email <input type="email" name="email" id="email" placeholder="<%= userdata.getEmail() %>"/></p>
+				<p> Name <input type="text" name="name" id="name" placeholder="<%= userToEdit.getName() %>"/></p>
+				<p> Email <input type="email" name="email" id="email" placeholder="<%= userToEdit.getEmail() %>"/></p>
 				<input type="SUBMIT" value="Ok"/>
 			</form>
 			<br>

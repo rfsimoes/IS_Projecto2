@@ -2,6 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <%@page import="common.User"%>
+<%@page import="java.util.List"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
 	<head>
@@ -15,20 +17,19 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script language="javascript" type="text/javascript" src="bootstrap/js/dropdown.js"></script>
 		
-		<!-- VERIFICAÇÃO DOS CAMPOS DO FORMULÁRIO -->
+		<!--  -->
 		<script type="text/javascript" language="javascript">
-            function validateForm() {
-            	if (document.getElementById("editUser").value == "") {
-                    alert("User's name not defined");
-                    document.getElementById("editUser").focus();
-                    return false;
-                }
-            	else{
-                    document.getElementById("login_form").submit();
-                }
-            	
-            }
-        </script>
+			function confirmar(username){
+		    	var txt;
+		        var r = confirm("Are you sure you want to delete "+username+"'s account?\nPress Ok to delete, Cancel to quit!");
+		        if (r == true) {
+		            txt = "Ok";
+		            document.location.href="DeleteAccountServlet?admin="+username;
+		        } else {
+		            txt = "Cancel";
+		        }
+		    }
+		</script>
 	
 	</head>
 	
@@ -60,14 +61,35 @@
 			</div>
 		</nav>
 		
-		<h1>Welcome to CNN News</h1>
-        
-        <form action="AdminEditServlet" method="POST" id="login_form" onsubmit="return validateForm()">
-				<p>
-					Edit user <input type="text" name="editUser" id="editUser" />
-					<input type="SUBMIT" value="Ok" />
-				</p>
-		</form>
+		<!-- CONTEUDO -->
+		<center>
+			<h2>Welcome to CNN News</h2>
+			<h4>User's management</h4>
+			<br>
+			<div class="container">
+				<!-- Tabela com utilizadores -->
+				<table class="table table-striped">
+					<tr>
+						<th>Username</th>
+						<th>Edit</th>
+						<th>Delete</th>
+					</tr>
+					<%
+						pageContext.setAttribute("usersList", session.getAttribute("utilizadores"));
+					%>
+					<c:forEach var="utilizador" items="${usersList}" varStatus="status">
+						<tr>
+							<td>${utilizador.username}</td>
+							<td><a href="AdminEdit.jsp?user=${utilizador.username}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+							<td><a onclick="return confirmar('${utilizador.username}')"><span class="glyphicon glyphicon-trash"></span></a></td>
+						</tr>
+					</c:forEach>
+				</table>
+				
+				<!-- Criar novo utilizador -->
+				<a href="CreateUser.jsp"><button type="button" class="btn btn-primary">Create new user</button></a>
+			</div>
+		</center>
 		
 	</body>
 </html>

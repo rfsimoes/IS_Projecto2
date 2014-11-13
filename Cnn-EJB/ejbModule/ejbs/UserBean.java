@@ -103,6 +103,20 @@ public class UserBean implements UserBeanRemote {
 		}
 		return null;
 	}
+	
+	/*
+	 * Ir buscar todos os utilizadores (à excepção do admin)
+	 */
+	public List<User> getAllUsers() {
+		Query query = em.createQuery("FROM User s WHERE s.username NOT LIKE 'admin'");
+
+		@SuppressWarnings("unchecked")
+		List<User> users = query.getResultList();
+		if (users.size() > 0) {
+			return users;
+		}
+		return null;
+	}
 
 	public User editAccount(User user, String password, String name, String currEmail, String newEmail) {
 		

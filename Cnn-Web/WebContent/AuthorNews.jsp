@@ -27,6 +27,20 @@
 		<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 		<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	
+		<!--  -->
+		<script type="text/javascript" language="javascript">
+			function confirmar(){
+		    	var txt;
+		        var r = confirm("Are you sure you want to delete your account?\nPress Ok to delete, Cancel to quit!");
+		        if (r == true) {
+		            txt = "Ok";
+		            document.location.href="DeleteAccountServlet";
+		        } else {
+		            txt = "Cancel";
+		        }
+		    }
+		</script>
+	
 	</head>
 	<body>
 		<jsp:include page="auth_verification.jsp"></jsp:include>
@@ -61,7 +75,7 @@
 								  	</button>
 								  	<ul class="dropdown-menu" role="menu">
 									    <li><a href="EditProfile.jsp">Edit profile</a></li>
-									    <li><a href="DeleteAccount.jsp">Delete account</a></li>
+									    <li><a onclick="return confirmar()">Delete account</a></li>
 									    <li class="divider"></li>
 									    <li><a href="Logout.jsp">Logout</a></li>
 								  	</ul>

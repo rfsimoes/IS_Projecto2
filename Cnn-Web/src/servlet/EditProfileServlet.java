@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.User;
-
 import ejbs.NewsBeanRemote;
 import ejbs.UserBeanRemote;
 
@@ -45,27 +45,51 @@ public class EditProfileServlet extends HttpServlet {
 		String newName = request.getParameter("name");
 		String newEmail = request.getParameter("email");
 		
-		User user = (User) session.getAttribute("user");
-		
-		String currEmail = user.getEmail();
-		
-		if(newPassword.isEmpty()){
-			newPassword = user.getPassword();
-		}
-		if(newName.isEmpty()){
-			newName = user.getName();
-		}
-		if(newEmail.isEmpty()){
-			newEmail = currEmail;
-		}
-		
-		User atualizado = ubr.editAccount(user, newPassword, newName,currEmail, newEmail);
-		if(atualizado != null){
-			session.setAttribute("user", atualizado);
-			dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=1");
+		if(request.getParameter("admin") != null){
+			User userToEdit = ubr.getUser(request.getParameter("admin"));
+			String currEmail = userToEdit.getEmail();
+			
+			if(newPassword.isEmpty()){
+				newPassword = userToEdit.getPassword();
+			}
+			if(newName.isEmpty()){
+				newName = userToEdit.getName();
+			}
+			if(newEmail.isEmpty()){
+				newEmail = currEmail;
+			}
+			
+			User atualizado = ubr.editAccount(userToEdit, newPassword, newName,currEmail, newEmail);
+			if(atualizado != null){
+				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?success=1");
+			}
+			else{
+				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?success=0");
+			}
 		}
 		else{
-			dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=0");
+			User user = (User) session.getAttribute("user");
+			
+			String currEmail = user.getEmail();
+			
+			if(newPassword.isEmpty()){
+				newPassword = user.getPassword();
+			}
+			if(newName.isEmpty()){
+				newName = user.getName();
+			}
+			if(newEmail.isEmpty()){
+				newEmail = currEmail;
+			}
+			
+			User atualizado = ubr.editAccount(user, newPassword, newName,currEmail, newEmail);
+			if(atualizado != null){
+				session.setAttribute("user", atualizado);
+				dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=1");
+			}
+			else{
+				dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=0");
+			}
 		}
 		
 		dispatcher.forward(request, response);
