@@ -50,7 +50,7 @@
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
 						<i class="icon-reorder"></i>
 					</button>
-					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
+					<a class="navbar-brand" href="MenuAdmin.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
 		        <!-- Informação do utilizador -->
 				<%  

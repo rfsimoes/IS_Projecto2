@@ -74,6 +74,18 @@
 			<br/><br/>
 			
 			<a style="color: black" href="Regist.jsp">Don't have an account? <strong>Sign Up</strong> now</a>
+			
+			<br><br>
+			
+			<%
+				if(request.getParameter("fail") != null){
+			%>
+					<div class="container">
+						<div class="alert alert-danger" role="alert">User could not be validated. Username/Password incorrect!</div>
+					</div>
+			<%
+				}
+			%>
 
 		</center>
 	</body>
