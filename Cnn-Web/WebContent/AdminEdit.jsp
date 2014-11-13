@@ -43,7 +43,7 @@
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
 						<i class="icon-reorder"></i>
 					</button>
-					<a class="navbar-brand" href="Menu.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
+					<a class="navbar-brand" href="MenuAdmin.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
 				<!-- Informação do utilizador -->
 				<%  
@@ -64,11 +64,11 @@
 			<h1>Edit profile</h1>
 			
 			<%
-				UserBeanRemote ubr = (UserBeanRemote) session.getAttribute("userbean");
+				UserBeanRemote ubr = (UserBeanRemote) session.getAttribute("userBean");
 				User userToEdit = ubr.getUser(request.getParameter("user"));
 			%>
 			
-			<form action="EditProfileServlet?admin=<%= userToEdit %>" method="POST" id="login_form" onsubmit="return validateForm()">
+			<form action="EditProfileServlet?admin=<%= userToEdit.getUsername() %>" method="POST" id="login_form" onsubmit="return validateForm()">
 				<p> Username <input type="text" id="disabledInput" placeholder="<%= userToEdit.getUsername() %>" disabled></p>
 				<p> Password <input type="password" name="password" id="password" /></p>
 				<p> Name <input type="text" name="name" id="name" placeholder="<%= userToEdit.getName() %>"/></p>

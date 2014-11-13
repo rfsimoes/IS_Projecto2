@@ -61,10 +61,10 @@ public class EditProfileServlet extends HttpServlet {
 			
 			User atualizado = ubr.editAccount(userToEdit, newPassword, newName,currEmail, newEmail);
 			if(atualizado != null){
-				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?success=1");
+				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?user="+userToEdit.getUsername()+"&success=1");
 			}
 			else{
-				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?success=0");
+				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?user="+userToEdit.getUsername()+"&success=0");
 			}
 		}
 		else{
