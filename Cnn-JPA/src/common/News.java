@@ -128,5 +128,21 @@ public class News implements Serializable {
 	public void setVideoURL(String videoURL) {
 		this.videoURL = videoURL;
 	}
+	
+	public String toStringForEmail()
+	{
+		String email="";
+		email = "<p><strong> # "+title+"</strong></p>";
+		for(String h : highlights)
+		{
+			email += "<p>	-	"+h+"</p>";
+		}
+		
+		email += "<p><a href="+url+">Read more.</a></p>";
+		email += "<b></b>";
+		
+		return email;
+		
+	}
    
 }

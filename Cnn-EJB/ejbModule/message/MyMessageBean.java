@@ -1,5 +1,6 @@
 package message;
 
+import ejbs.EmailSenderBeanRemote;
 import generated.Cnn;
 import generated.Region;
 
@@ -9,6 +10,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -35,6 +37,9 @@ public class MyMessageBean implements MessageListener {
 	@PersistenceContext(name="TestPersistence")
 	private EntityManager em;
 	
+	@EJB
+	private EmailSenderBeanRemote esb;
+	
 	/**
 	 * Default constructor.
 	 */
@@ -46,6 +51,7 @@ public class MyMessageBean implements MessageListener {
 	 */
 	public void onMessage(Message message) {
 		System.out.println("Recebeu stuff");
+		//esb.sendEmail();
 		
 		try {
 			JAXBContext context = JAXBContext.newInstance(Cnn.class);
