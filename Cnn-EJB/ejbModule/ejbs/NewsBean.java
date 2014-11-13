@@ -61,8 +61,8 @@ public class NewsBean implements NewsBeanRemote {
      * @return lista de notícias ordenadas
      */
     public List<News> newsFromAuthor(String author){
-    	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE a.name LIKE :author ORDER BY date DESC");
-    	query.setParameter("author", author);
+    	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE upper(a.name) LIKE upper(:author) ORDER BY date DESC");
+    	query.setParameter("author", "%"+author+"%");
     	
     	@SuppressWarnings("unchecked")
 		List<News> news = query.getResultList();
@@ -76,9 +76,9 @@ public class NewsBean implements NewsBeanRemote {
      * @return lista de notícias ordenadas
      */
     public List<News> newsFromAuthor(String author, String region){
-    	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE n.region LIKE :r AND a.name LIKE :author ORDER BY date DESC");
+    	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE n.region LIKE :r AND upper(a.name) LIKE upper(:author) ORDER BY date DESC");
     	query.setParameter("r", region);
-    	query.setParameter("author", author);
+    	query.setParameter("author", "%"+author+"%");
     	
     	@SuppressWarnings("unchecked")
 		List<News> news = query.getResultList();

@@ -95,30 +95,16 @@
 		<%  
         	NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
 	        
-	        List<String> regioes = new ArrayList<String>();
-	        List<News> allNews = newsbean.getNews();
-	        List<News> highlightNews = new ArrayList<News>();
-	        
-	        for(int i=0; i<allNews.size();i++){
-	        	for(int j=0; j<allNews.get(i).getHighlights().size(); j++){
-	        		if(allNews.get(i).getHighlights().get(j).contains(word)){
-	        			if(!highlightNews.contains(allNews.get(i))){
-	        				highlightNews.add(allNews.get(i));
-	        			}
-	        			if(!regioes.contains(allNews.get(i).getRegion())){
-	    	        		regioes.add(allNews.get(i).getRegion());
-	    	        	}
-	        		}
-	        	}
-	        }
+			List<String> regioes = (List<String>) session.getAttribute("regioes");    
+			List<News> highlightNews = (List<News>) session.getAttribute("highlightNews");
+		
 	        pageContext.setAttribute("newsList", highlightNews);
-	        
-	        for(int j=0; j<regioes.size(); j++){
+	        pageContext.setAttribute("regioes", regioes);
         %>
+        	<c:forEach var="regiao" items="${regioes}" varStatus="regiaoStatus">
 				<!-- CONTEUDO -->
         		<!-- Região -->
-        		<c:set var="regiao" value="<%= regioes.get(j) %>"/>
-				<h1 id="<%= regioes.get(j) %>">${regiao}</h1>
+        		<h1 id="${regiao}">${regiao}</h1>
 				<div class="panel-group" id="accordion">
 					<!-- Notícias -->
 				    <c:forEach var="news" items="${newsList}" varStatus="status">
@@ -146,11 +132,10 @@
 													<b><c:out value="${news.authors[0].name}"/></b> and <b><c:out value="${news.authors[1].name}"/></b>,
 												</c:when >
 												<c:otherwise>
-													<b><c:out value="${news.authors[0].name}"/></b>, <b><c:out value="${news.authors[1].name}"/></b> and <b>c:out value="${news.authors[2].name}"/></b>,
+													<b><c:out value="${news.authors[0].name}"/></b>, <b><c:out value="${news.authors[1].name}"/></b> and <b><c:out value="${news.authors[2].name}"/></b>,
 												</c:otherwise>
 											</c:choose>
 										</c:if>
-										-->
 										<!-- Data -->
 	 									on 
 	 									<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${news.date}" />
@@ -193,7 +178,6 @@
 						</c:if>
 					</c:forEach>
 				</div>
-		        <% } %>
-        
+			</c:forEach>
 	</body>
 </html>

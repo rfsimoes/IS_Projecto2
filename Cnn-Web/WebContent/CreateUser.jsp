@@ -12,6 +12,8 @@
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
 		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
 		<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/dropdown.js"></script>
 		
 		<!-- VERIFICAÇÃO DOS CAMPOS DO FORMULÁRIO -->
 		<script type="text/javascript" language="javascript">

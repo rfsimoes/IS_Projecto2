@@ -97,14 +97,7 @@
 		<%  
 	        NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
 	        
-	        List<String> regioes = new ArrayList<String>();
-	        List<News> newsAuthor = newsbean.newsFromAuthor(author);
-	        
-	        for(int i=0; i<newsAuthor.size();i++){
-	        	if(!regioes.contains(newsAuthor.get(i).getRegion())){
-	        		regioes.add(newsAuthor.get(i).getRegion());
-	        	}
-	        }
+			List<String> regioes = (List<String>) session.getAttribute("regioes");
 	        
 	        for(int j=0; j<regioes.size(); j++){
 	        	List<News> newsAuthorRegion = newsbean.newsFromAuthor(author, regioes.get(j));
@@ -140,7 +133,7 @@
 												<b><c:out value="${news.authors[0].name}"/></b> and <b><c:out value="${news.authors[1].name}"/></b>,
 											</c:when >
 											<c:otherwise>
-												<b><c:out value="${news.authors[0].name}"/></b>, <b><c:out value="${news.authors[1].name}"/></b> and <b>c:out value="${news.authors[2].name}"/></b>,
+												<b><c:out value="${news.authors[0].name}"/></b>, <b><c:out value="${news.authors[1].name}"/></b> and <b><c:out value="${news.authors[2].name}"/></b>,
 											</c:otherwise>
 										</c:choose>
 									</c:if>

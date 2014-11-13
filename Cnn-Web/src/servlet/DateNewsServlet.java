@@ -1,7 +1,10 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,13 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.News;
+
+import ejbs.NewsBeanRemote;
+
 /**
  * Servlet implementation class DateNewsServlet
  */
 @WebServlet("/DateNewsServlet")
 public class DateNewsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
+	@EJB
+	NewsBeanRemote nbr;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,10 +40,21 @@ public class DateNewsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = null;
-		HttpSession session;
+		HttpSession session = request.getSession(true);;
 
 		String date = request.getParameter("date");
-
+        
+        List<String> regioes = new ArrayList<String>();
+        List<News> newsDate = nbr.newsMoreRecentThan(date);
+        
+        for(int i=0; i<newsDate.size();i++){
+        	if(!regioes.contains(newsDate.get(i).getRegion())){
+        		regioes.add(newsDate.get(i).getRegion());
+        	}
+        }
+        
+        session.setAttribute("regioes", regioes);
+       
 		session = request.getSession(true);
 		
 		session.setAttribute("date", date);

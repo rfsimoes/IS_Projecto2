@@ -17,10 +17,10 @@ import common.News;
 import ejbs.NewsBeanRemote;
 
 /**
- * Servlet implementation class HighlightNewsServlet
+ * Servlet implementation class AllNewsServlet
  */
-@WebServlet("/HighlightNewsServlet")
-public class HighlightNewsServlet extends HttpServlet {
+@WebServlet("/AllNewsServlet")
+public class AllNewsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	@EJB
@@ -29,7 +29,7 @@ public class HighlightNewsServlet extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HighlightNewsServlet() {
+    public AllNewsServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,33 +39,20 @@ public class HighlightNewsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = null;
-		HttpSession session;
-
-		String word = request.getParameter("word");
-
-		session = request.getSession(true);
+		HttpSession session = request.getSession(true);
 		
-		List<String> regioes = new ArrayList<String>();
-        List<News> allNews = nbr.getNews();
-        List<News> highlightNews = new ArrayList<News>();
+		List<String> regioes = new ArrayList<String>(); // Lista de regiões
+        List<News> allNews = nbr.getNews(); // Lista de notícias
         
+        // Percorrer lista de notícias para preencher lista de regiões
         for(int i=0; i<allNews.size();i++){
-        	for(int j=0; j<allNews.get(i).getHighlights().size(); j++){
-        		if(allNews.get(i).getHighlights().get(j).contains(word)){
-        			if(!highlightNews.contains(allNews.get(i))){
-        				highlightNews.add(allNews.get(i));
-        			}
-        			if(!regioes.contains(allNews.get(i).getRegion())){
-    	        		regioes.add(allNews.get(i).getRegion());
-    	        	}
-        		}
+        	if(!regioes.contains(allNews.get(i).getRegion())){
+        		regioes.add(allNews.get(i).getRegion());
         	}
         }
 		
-        session.setAttribute("regioes",regioes);
-        session.setAttribute("highlightNews", highlightNews);
-		session.setAttribute("word", word);
-		dispatcher = request.getRequestDispatcher("/HighlightNews.jsp");
+        session.setAttribute("regioes", regioes);
+		dispatcher = request.getRequestDispatcher("/AllNews.jsp");
 		
 		dispatcher.forward(request, response);
 	}

@@ -90,15 +90,7 @@
 		<%  
         	NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
 	        
-	        List<String> regioes = new ArrayList<String>(); // Lista de regiões
-	        List<News> allNews = newsbean.getNews(); // Lista de notícias
-	        
-	        // Percorrer lista de notícias para preencher lista de regiões
-	        for(int i=0; i<allNews.size();i++){
-	        	if(!regioes.contains(allNews.get(i).getRegion())){
-	        		regioes.add(allNews.get(i).getRegion());
-	        	}
-	        }
+			List<String> regioes = (List<String>) session.getAttribute("regioes");
 	       	
 	        // Para cada região, apresenta as notícias ordenadas por data (as mais recentes primeiro)
 	        for(int j=0; j<regioes.size(); j++){
@@ -136,7 +128,7 @@
 												<b><c:out value="${news.authors[0].name}"/></b> and <b><c:out value="${news.authors[1].name}"/></b>,
 											</c:when >
 											<c:otherwise>
-												<b><c:out value="${news.authors[0].name}"/></b>, <b><c:out value="${news.authors[1].name}"/></b> and <b>c:out value="${news.authors[2].name}"/></b>,
+												<b><c:out value="${news.authors[0].name}"/></b>, <b><c:out value="${news.authors[1].name}"/></b> and <b><c:out value="${news.authors[2].name}"/></b>,
 											</c:otherwise>
 										</c:choose>
 									</c:if>

@@ -102,7 +102,7 @@
 			<br>
 			
 			<div>
-	            <a href="AllNews.jsp" style="display: inline-block; color: #0000ff; text-decoration: none">
+	            <a href="AllNewsServlet" style="display: inline-block; color: #0000ff; text-decoration: none">
 	                List all the news
 	            </a>
 	        </div>

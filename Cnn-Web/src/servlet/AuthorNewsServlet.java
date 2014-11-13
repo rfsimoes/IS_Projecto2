@@ -1,7 +1,10 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import common.News;
+import ejbs.NewsBeanRemote;
 
 
 /**
@@ -18,6 +24,9 @@ import javax.servlet.http.HttpSession;
 public class AuthorNewsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	@EJB
+	NewsBeanRemote nbr;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -37,6 +46,16 @@ public class AuthorNewsServlet extends HttpServlet {
 
 		session = request.getSession(true);
 		
+		List<String> regioes = new ArrayList<String>();
+        List<News> newsAuthor = nbr.newsFromAuthor(author);
+        
+        for(int i=0; i<newsAuthor.size();i++){
+        	if(!regioes.contains(newsAuthor.get(i).getRegion())){
+        		regioes.add(newsAuthor.get(i).getRegion());
+        	}
+        }
+		
+        session.setAttribute("regioes", regioes);
 		session.setAttribute("author", author);
 		dispatcher = request.getRequestDispatcher("/AuthorNews.jsp");
 		
