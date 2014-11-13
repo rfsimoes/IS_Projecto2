@@ -123,7 +123,7 @@ public class WebCrawler {
 	private static void collectNews() {
 		System.out.println("Parsing CNN web page");
 
-		String[] region = {"US", "AFRICA","ASIA", "EUROPE","LATINAMERICA", "MIDDLEEAST"};
+		String[] region = {"US"/*, "AFRICA","ASIA", "EUROPE","LATINAMERICA", "MIDDLEEAST"*/};
 		for (String r : region) {
 			System.out.println("\nParsing news from " + r);
 
