@@ -29,10 +29,12 @@
         </script>
 	</head>
 	
+	
 	<body>
 		<!-- HEADER -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container">
+				
 				<!-- Logo CNN -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
@@ -40,6 +42,7 @@
 					</button>
 					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
+				
 				<!-- Sign Up -->
 				<div class="nav navbar-nav navbar-right">
 					<a href="Regist.jsp">Sign Up</a>
@@ -47,9 +50,12 @@
 			</div>
 		</nav>
 				
+		
+		<!-- CONTEUDO -->
 		<center>
 		
 			<%
+				// Se se tentar aceder a algo dentro do site sem ter sessão iniciada
 				if(request.getParameter("unauthorized") != null){
 			%>
 					<div class="container">
@@ -78,6 +84,7 @@
 			<br><br>
 			
 			<%
+				// Se o login falhar (por username/password errada)
 				if(request.getParameter("fail") != null){
 			%>
 					<div class="container">

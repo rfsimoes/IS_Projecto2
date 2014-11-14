@@ -42,11 +42,12 @@
         </script>
 	</head>
 	
-	<body>
 	
+	<body>
 		<!-- HEADER -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container">
+				
 				<!-- Logo CNN -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
@@ -54,6 +55,7 @@
 					</button>
 					<a class="navbar-brand" href="MenuAdmin.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
+		        
 		        <!-- Informação do utilizador -->
 				<%  
 					User userdata = (User) session.getAttribute("user");
@@ -69,6 +71,7 @@
 			</div>
 		</nav>
 	
+		<!-- CONTEUDO -->
 		<center> 
 			<h1>Create new user</h1>
 			
@@ -83,6 +86,7 @@
 			<br>
 			
 			<%
+				// Se a criação do utilizador falhar (por já existir um username/email igual)
 				if(request.getParameter("fail") != null){
 			%>
 					<div class="container">

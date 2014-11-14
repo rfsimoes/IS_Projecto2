@@ -41,20 +41,22 @@ public class RegistServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = null;
 		
+		// Ir buscar informações do form
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		
+		// Se o registo ocorrer com sucesso
 		if (ubr.register(username, password, name, email) == true) {
 			dispatcher = request.getRequestDispatcher("/Login.jsp");
-		} else {
+		} 
+		// Se o registo falhar (por username/email já existente)
+		else {
 			dispatcher = request.getRequestDispatcher("/Regist.jsp?fail=1");
 		}
 		
-		
-		dispatcher.forward(request, response);
-				
+		dispatcher.forward(request, response);	
 	}
 
 	/**

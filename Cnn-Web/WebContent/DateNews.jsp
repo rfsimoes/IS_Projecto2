@@ -6,8 +6,7 @@
 <%@page import="common.News"%>
 <%@page import="common.User"%>
 <%@page import="ejbs.NewsBeanRemote"%>
-<%@page import="javax.naming.InitialContext" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -27,7 +26,7 @@
 		<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 		<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 		
-		<!--  -->
+		<!-- Confirmação da eliminação da conta -->
 		<script type="text/javascript" language="javascript">
 			function confirmar(){
 		    	var txt;
@@ -40,14 +39,16 @@
 		        }
 		    }
 		</script>
-		
 	</head>
+	
+	
 	<body>
 		<jsp:include page="auth_verification.jsp"></jsp:include>
 		
 		<!-- HEADER -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container">
+				
 				<!-- Logo CNN -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
@@ -55,19 +56,24 @@
 					</button>
 					<a class="navbar-brand" href="Menu.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
-				<!-- Informação do utilizador -->
+				
+				<!-- Restante header -->
 				<%  
 					User userdata = (User) session.getAttribute("user");
 		        %>
 				<div class="collapse navbar-collapse navbar-menu">
 					<div class="nav navbar-nav navbar-right">
 						<ul class="nav navbar-nav navbar-right">
+							
+							<!-- Lista de regiões -->
 							<li><a href="#US">US</a></li>
 							<li><a href="#AFRICA">AFRICA</a></li>
 							<li><a href="#ASIA">ASIA</a></li>
 							<li><a href="#EUROPE">EUROPE</a></li>
 							<li><a href="#LATINAMERICA">LATIN AMERICA</a></li>
 							<li><a href="#MIDDLEEAST">MIDDLE EAST</a></li>
+							
+							<!-- Informação do utilizador -->
 							<li>
 								<div class="btn-group">
 									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -87,29 +93,35 @@
 			</div>
 		</nav>
 		
+		
+		<!-- CONTEUDO -->
 		<% 
 			String date = session.getAttribute("date").toString();
-			//System.out.println("DATA: " + date);
 		%>
+		
 		<h1>News more recent than <%= date %></h1>
 		
 		<%  
         	NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
 	        
+			// Lista de regiões que têm notícias que são mais recentes que a data
 	        List<String> regioes = (List<String>) session.getAttribute("regioes");
 	        
 	        for(int j=0; j<regioes.size(); j++){
+	        	// Lista de notícias (de cada ragião) que são mais recentes que a data
 	        	List<News> newsDateRegion = newsbean.newsMoreRecentThan(date, regioes.get(j));
 	        	pageContext.setAttribute("newsList", newsDateRegion);
         %>
-				<!-- CONTEUDO -->
-        		<!-- Região -->
+				<!-- Região -->
 				<c:set var="regiao" value="<%= regioes.get(j) %>"/>
 				<h1 id="<%= regioes.get(j) %>">${regiao}</h1>
 				<div class="panel-group" id="accordion">
+					
 					<!-- Notícias -->
 				    <c:forEach var="news" items="${newsList}" varStatus="status">
 						<div class="panel panel-default">
+						
+							<!-- Header do painel -->
 							<div class="panel-heading">
 								<!-- Título da notícia -->
 								<h3 class="panel-title">
@@ -118,6 +130,8 @@
 								    </a>
 								</h3>
 							</div>
+							
+							<!-- Conteúdo do painel -->
 							<div id="collapse${news.region}${status.index}" class="panel-collapse collapse">
 								<div class="panel-body">
 									<!-- Autor(es) -->
@@ -175,7 +189,6 @@
 								</div>
 							</div>
 						</div>
-						
 					</c:forEach>
 				</div>
 		        <% } %>

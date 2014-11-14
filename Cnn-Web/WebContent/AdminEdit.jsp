@@ -32,6 +32,7 @@
         </script>
 	</head>
 	
+	
 	<body>
 		<jsp:include page="auth_verification.jsp"></jsp:include>
 		
@@ -60,10 +61,12 @@
 			</div>
 		</nav>
 	
+		<!-- CONTEUDO -->
 		<center> 
 			<h1>Edit profile</h1>
 			
 			<%
+				// Ir buscar utilizador a editar
 				UserBeanRemote ubr = (UserBeanRemote) session.getAttribute("userBean");
 				User userToEdit = ubr.getUser(request.getParameter("user"));
 			%>
@@ -76,19 +79,22 @@
 				<input type="SUBMIT" value="Ok"/>
 			</form>
 			<br>
+			
 			<%
 				if(request.getParameter("success") != null){
+					// Se a edição do utilizador correr bem
 					if(request.getParameter("success").equals("1")){
 			%>
 						<div class="container">
-						<div class="alert alert-success" role="alert">Profile updated!</div>
+							<div class="alert alert-success" role="alert">Profile updated!</div>
 						</div>
 			<%
 					}
+					// Se a edição do utilizador falhar (por já existir um email igual)
 					else if(request.getParameter("success").equals("0")){
 			%>
 						<div class="container">
-						<div class="alert alert-danger" role="alert">Failed to edit profile: email already exists!</div>
+							<div class="alert alert-danger" role="alert">Failed to edit profile: email already exists!</div>
 						</div>
 			<%
 					}

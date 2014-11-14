@@ -43,8 +43,11 @@ public class LoginServlet extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session;
 
+		// Ir buscar informações do form
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		
+		// Se o login for efectuado com sucesso
 		if (ubr.login(username, password) == true) {
 			session = request.getSession(true);
 			// Set the username and password of a new User object and add this object
@@ -53,15 +56,20 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("user", userData);
 			session.setAttribute("newsBean", nbr);
 			session.setAttribute("userBean", ubr);
+			
+			// Se for o administrador
 			if(username.equals("admin")){
 				List<User> utilizadores = ubr.getAllUsers();
 				session.setAttribute("utilizadores", utilizadores);
 				dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
 			}
+			// Se for um utilizador normal
 			else{
 				dispatcher = request.getRequestDispatcher("/Menu.jsp");
 			}
-		} else {
+		} 
+		// Se o login falhar por credenciais incorretas
+		else {
 			dispatcher = request.getRequestDispatcher("/Login.jsp?fail=1");
 		}
 		

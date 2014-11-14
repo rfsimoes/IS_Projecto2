@@ -40,15 +40,20 @@ public class CreateUserServlet extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession(true);
 		
+		/// Ir buscar informação do form
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
+		
+		// Se a criação do utilizador correr bem
 		if (ubr.register(username, password, name, email) == true) {
 			List<User> utilizadores = ubr.getAllUsers();
 			session.setAttribute("utilizadores", utilizadores);
 			dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
-		} else {
+		}
+		// Caso a criação do utilizador falhe (por email já existente)
+		else {
 			dispatcher = request.getRequestDispatcher("/CreateUser.jsp?fail=1");
 		}
 		

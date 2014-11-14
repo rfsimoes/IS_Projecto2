@@ -45,10 +45,12 @@ public class HighlightNewsServlet extends HttpServlet {
 
 		session = request.getSession(true);
 		
-		List<String> regioes = new ArrayList<String>();
-        List<News> allNews = nbr.getNews();
-        List<News> highlightNews = new ArrayList<News>();
+		// Ir buscar informação do form
+		List<String> regioes = new ArrayList<String>();	// Lista de regiões
+        List<News> allNews = nbr.getNews();	// Lista de todas as notícias
+        List<News> highlightNews = new ArrayList<News>();	// Lista de notícias com a palavra
         
+        // Percorrer todas as notícias para preencher a lista de regiões e a lista de notícias com a palavra
         for(int i=0; i<allNews.size();i++){
         	for(int j=0; j<allNews.get(i).getHighlights().size(); j++){
         		if(allNews.get(i).getHighlights().get(j).contains(word)){
@@ -65,6 +67,7 @@ public class HighlightNewsServlet extends HttpServlet {
         session.setAttribute("regioes",regioes);
         session.setAttribute("highlightNews", highlightNews);
 		session.setAttribute("word", word);
+		
 		dispatcher = request.getRequestDispatcher("/HighlightNews.jsp");
 		
 		dispatcher.forward(request, response);
