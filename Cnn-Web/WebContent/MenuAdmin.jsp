@@ -3,7 +3,7 @@
 
 <%@page import="common.User"%>
 <%@page import="java.util.List"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 	<head>
@@ -17,7 +17,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script language="javascript" type="text/javascript" src="bootstrap/js/dropdown.js"></script>
 		
-		<!--  -->
+		<!-- Confirmação da eliminação de conta de um utilizador -->
 		<script type="text/javascript" language="javascript">
 			function confirmar(username){
 		    	var txt;
@@ -30,8 +30,8 @@
 		        }
 		    }
 		</script>
-	
 	</head>
+	
 	
 	<body>
 		<jsp:include page="auth_verification.jsp"></jsp:include>
@@ -39,6 +39,7 @@
 		<!-- HEADER -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container">
+				
 				<!-- Logo CNN -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
@@ -46,6 +47,7 @@
 					</button>
 					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
+		        
 		        <!-- Informação do utilizador -->
 				<%  
 					User userdata = (User) session.getAttribute("user");
@@ -61,12 +63,14 @@
 			</div>
 		</nav>
 		
+		
 		<!-- CONTEUDO -->
 		<center>
 			<h2>Welcome to CNN News</h2>
 			<h4>User's management</h4>
 			<br>
 			<div class="container">
+				
 				<!-- Tabela com utilizadores -->
 				<table class="table table-striped">
 					<tr>
@@ -90,6 +94,5 @@
 				<a href="CreateUser.jsp"><button type="button" class="btn btn-primary">Create new user</button></a>
 			</div>
 		</center>
-		
 	</body>
 </html>

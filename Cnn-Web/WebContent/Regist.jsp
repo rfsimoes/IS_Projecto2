@@ -37,11 +37,12 @@
         </script>
 	</head>
 	
-	<body>
 	
+	<body>
 		<!-- HEADER -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container">
+				
 				<!-- Logo CNN -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
@@ -49,6 +50,7 @@
 					</button>
 					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
+				
 				<!-- Sign Up -->
 				<div class="nav navbar-nav navbar-right">
 					<a href="Login.jsp">Sign In</a>
@@ -56,6 +58,8 @@
 			</div>
 		</nav>
 	
+		
+		<!-- CONTEUDO -->
 		<center> 
 			<h1>Sign Up</h1>
 			
@@ -75,6 +79,7 @@
 			<br><br>
 			
 			<%
+				// Se o registo falhar (por username/email já existente)
 				if(request.getParameter("fail") != null){
 			%>
 					<div class="container">

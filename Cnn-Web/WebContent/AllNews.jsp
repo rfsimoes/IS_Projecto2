@@ -6,48 +6,49 @@
 <%@page import="common.News"%>
 <%@page import="common.User"%>
 <%@page import="ejbs.NewsBeanRemote"%>
-<%@page import="javax.naming.InitialContext" %>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>CNN News - All the news</title>
-	
-	<!-- BOOTSTRAP -->
-	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
-	<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
-	<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script language="javascript" type="text/javascript" src="bootstrap/js/dropdown.js"></script>
-	<script language="javascript" type="text/javascript" src="bootstrap/js/transition.js"></script>
-	<script language="javascript" type="text/javascript" src="bootstrap/js/collapse.js"></script>
-	<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
-	<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-	
-	<!--  -->
-	<script type="text/javascript" language="javascript">
-		function confirmar(){
-	    	var txt;
-	        var r = confirm("Are you sure you want to delete your account?\nPress Ok to delete, Cancel to quit!");
-	        if (r == true) {
-	            txt = "Ok";
-	            document.location.href="DeleteAccountServlet";
-	        } else {
-	            txt = "Cancel";
-	        }
-	    }
-	</script>
-	
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>CNN News - All the news</title>
+		
+		<!-- BOOTSTRAP -->
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
+		<link href="bootstrap/css/style.css" rel="stylesheet" media="screen"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/dropdown.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/transition.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/collapse.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+		<script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+		
+		<!-- Confirmação da eliminação de conta -->
+		<script type="text/javascript" language="javascript">
+			function confirmar(){
+		    	var txt;
+		        var r = confirm("Are you sure you want to delete your account?\nPress Ok to delete, Cancel to quit!");
+		        if (r == true) {
+		            txt = "Ok";
+		            document.location.href="DeleteAccountServlet";
+		        } else {
+		            txt = "Cancel";
+		        }
+		    }
+		</script>
 	</head>
+	
+	
 	<body>
 		<jsp:include page="auth_verification.jsp"></jsp:include>
 		
 		<!-- HEADER -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container">
+				
 				<!-- Logo CNN -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
@@ -55,19 +56,24 @@
 					</button>
 					<a class="navbar-brand" href="Menu.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
-				<!-- Informação do utilizador -->
+				
+				<!-- Restante header -->
 				<%  
 					User userdata = (User) session.getAttribute("user");
 		        %>
 				<div class="collapse navbar-collapse navbar-menu">
 					<div class="nav navbar-nav navbar-right">
 						<ul class="nav navbar-nav navbar-right">
+							
+							<!-- Lista de regiões -->
 							<li><a href="#US">US</a></li>
 							<li><a href="#AFRICA">AFRICA</a></li>
 							<li><a href="#ASIA">ASIA</a></li>
 							<li><a href="#EUROPE">EUROPE</a></li>
 							<li><a href="#LATINAMERICA">LATIN AMERICA</a></li>
 							<li><a href="#MIDDLEEAST">MIDDLE EAST</a></li>
+							
+							<!-- Informação do utilizador -->
 							<li>
 								<div class="btn-group">
 									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -87,9 +93,12 @@
 			</div>
 		</nav>
 
+
+		<!-- CONTEUDO -->
 		<%  
         	NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
 	        
+			// Lista de regiões
 			List<String> regioes = (List<String>) session.getAttribute("regioes");
 	       	
 	        // Para cada região, apresenta as notícias ordenadas por data (as mais recentes primeiro)
@@ -98,14 +107,16 @@
 	        	pageContext.setAttribute("newsList", news);
         %>
         
-        		<!-- CONTEUDO -->
         		<!-- Região -->
 				<c:set var="regiao" value="<%= regioes.get(j) %>"/>
 				<h1 id="<%= regioes.get(j) %>">${regiao}</h1>
 				<div class="panel-group" id="accordion">
+					
 					<!-- Notícias -->
 				    <c:forEach var="news" items="${newsList}" varStatus="status">
 						<div class="panel panel-default">
+							
+							<!-- Header do painel -->
 							<div class="panel-heading">
 								<!-- Título da notícia -->
 								<h3 class="panel-title">
@@ -114,6 +125,8 @@
 								    </a>
 								</h3>
 							</div>
+							
+							<!-- Conteúdo do painel -->
 							<div id="collapse${news.region}${status.index}" class="panel-collapse collapse">
 								<div class="panel-body">
 									<!-- Autor(es) -->
@@ -171,7 +184,6 @@
 								</div>
 							</div>
 						</div>
-						
 					</c:forEach>
 				</div>
 				<% } %>

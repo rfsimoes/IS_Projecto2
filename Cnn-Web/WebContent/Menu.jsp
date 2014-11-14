@@ -50,6 +50,7 @@
             	}
             }
             
+            // Confirmação da eliminação de conta
             function confirmar(){
             	var txt;
                 var r = confirm("Are you sure you want to delete your account?\nPress Ok to delete, Cancel to quit!");
@@ -61,8 +62,8 @@
                 }
             }
         </script>
-	
 	</head>
+	
 	
 	<body>
 		<jsp:include page="auth_verification.jsp"></jsp:include>
@@ -70,6 +71,7 @@
 		<!-- HEADER -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container">
+				
 				<!-- Logo CNN -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
@@ -77,6 +79,7 @@
 					</button>
 					<a class="navbar-brand" href="#"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
+		        
 		        <!-- Informação do utilizador -->
 				<%  
 					User userdata = (User) session.getAttribute("user");
@@ -95,6 +98,8 @@
 			</div>
 		</nav>
 		
+		
+		<!-- CONTEUDO -->
 		<center>
 			<h2>Welcome to CNN News</h2>
 			<h4>What do you want to do?</h4>

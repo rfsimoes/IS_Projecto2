@@ -29,6 +29,7 @@
                 }
             }
             
+            // Confirmação da eliminação de conta
             function confirmar(){
             	var txt;
                 var r = confirm("Are you sure you want to delete your account?\nPress Ok to delete, Cancel to quit!");
@@ -42,12 +43,14 @@
         </script>
 	</head>
 	
+	
 	<body>
 		<jsp:include page="auth_verification.jsp"></jsp:include>
 		
 		<!-- HEADER -->
 		<nav class="navbar navbar-default" role="navigation">
 			<div class="container">
+				
 				<!-- Logo CNN -->
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
@@ -55,6 +58,7 @@
 					</button>
 					<a class="navbar-brand" href="Menu.jsp"><img src="bootstrap/img/cnn_logo.gif"/></a>
 				</div>
+				
 				<!-- Informação do utilizador -->
 				<%  
 					User userdata = (User) session.getAttribute("user");
@@ -73,6 +77,7 @@
 			</div>
 		</nav>
 	
+		<!-- CONTEUDO -->
 		<center> 
 			<h1>Edit profile</h1>
 			
@@ -84,8 +89,10 @@
 				<input type="SUBMIT" value="Ok"/>
 			</form>
 			<br>
+			
 			<%
 				if(request.getParameter("success") != null){
+					// Se o perfil for editado com sucesso
 					if(request.getParameter("success").equals("1")){
 			%>
 						<div class="container">
@@ -93,6 +100,7 @@
 						</div>
 			<%
 					}
+					// Se falhar a edição do perfil (por já existir um email igual)
 					else if(request.getParameter("success").equals("0")){
 			%>
 						<div class="container">
