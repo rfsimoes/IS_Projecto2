@@ -90,7 +90,7 @@
 						</div>
 			<%
 					}
-					// Se a edição do utilizador falhar (por já existir um username/email igual)
+					// Se a edição do utilizador falhar (por já existir um email igual)
 					else if(request.getParameter("success").equals("0")){
 			%>
 						<div class="container">

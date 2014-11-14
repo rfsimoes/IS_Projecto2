@@ -46,9 +46,10 @@ public class AuthorNewsServlet extends HttpServlet {
 
 		session = request.getSession(true);
 		
-		List<String> regioes = new ArrayList<String>();
-        List<News> newsAuthor = nbr.newsFromAuthor(author);
+		List<String> regioes = new ArrayList<String>();	// Lista de regiões
+        List<News> newsAuthor = nbr.newsFromAuthor(author);	// Lista de notícias
         
+        // Percorrer lista de notícias para preencher lista de regiões
         for(int i=0; i<newsAuthor.size();i++){
         	if(!regioes.contains(newsAuthor.get(i).getRegion())){
         		regioes.add(newsAuthor.get(i).getRegion());
@@ -57,6 +58,7 @@ public class AuthorNewsServlet extends HttpServlet {
 		
         session.setAttribute("regioes", regioes);
 		session.setAttribute("author", author);
+		
 		dispatcher = request.getRequestDispatcher("/AuthorNews.jsp");
 		
 		dispatcher.forward(request, response);

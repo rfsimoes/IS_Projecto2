@@ -40,13 +40,20 @@ public class DeleteAccountServlet extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession(true);
 		
+		// Se for o administrador
 		if(request.getParameter("admin") != null){
+			// Ir buscar o utilizador a apagar
 			User userToRemove = ubr.getUser(request.getParameter("admin"));
+			
 			ubr.deleteAccount(userToRemove);
+			
+			// Atualizar lista de utilizadores na sessão
 			List<User> utilizadores = ubr.getAllUsers();
 			session.setAttribute("utilizadores", utilizadores);
+			
 			dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
 		}
+		// Se for um utilizador
 		else{
 			User user = (User) session.getAttribute("user");
 			

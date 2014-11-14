@@ -40,13 +40,14 @@ public class DateNewsServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = null;
-		HttpSession session = request.getSession(true);;
+		HttpSession session = request.getSession(true);
 
 		String date = request.getParameter("date");
         
-        List<String> regioes = new ArrayList<String>();
-        List<News> newsDate = nbr.newsMoreRecentThan(date);
+        List<String> regioes = new ArrayList<String>();	// Lista de regiões
+        List<News> newsDate = nbr.newsMoreRecentThan(date);	// Lista de notícias
         
+        // Percorrer lista de notícias para preencher lista de regiões
         for(int i=0; i<newsDate.size();i++){
         	if(!regioes.contains(newsDate.get(i).getRegion())){
         		regioes.add(newsDate.get(i).getRegion());
@@ -54,10 +55,8 @@ public class DateNewsServlet extends HttpServlet {
         }
         
         session.setAttribute("regioes", regioes);
-       
-		session = request.getSession(true);
-		
 		session.setAttribute("date", date);
+		
 		dispatcher = request.getRequestDispatcher("/DateNews.jsp");
 		
 		dispatcher.forward(request, response);

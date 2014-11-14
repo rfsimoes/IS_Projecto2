@@ -41,14 +41,19 @@ public class EditProfileServlet extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession(true);;
 		
+		// Ir buscar informação do form
 		String newPassword = request.getParameter("password");
 		String newName = request.getParameter("name");
 		String newEmail = request.getParameter("email");
 		
+		// Se for o administrador
 		if(request.getParameter("admin") != null){
+			// Ir buscar utilizador a editar
 			User userToEdit = ubr.getUser(request.getParameter("admin"));
+			
 			String currEmail = userToEdit.getEmail();
 			
+			// Verificar a que campos foram feitas mudanças
 			if(newPassword.isEmpty()){
 				newPassword = userToEdit.getPassword();
 			}
@@ -59,19 +64,25 @@ public class EditProfileServlet extends HttpServlet {
 				newEmail = currEmail;
 			}
 			
+			// Editar conta
 			User atualizado = ubr.editAccount(userToEdit, newPassword, newName,currEmail, newEmail);
+			
+			// Se o perfil do utilizador foi editado com sucesso
 			if(atualizado != null){
 				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?user="+userToEdit.getUsername()+"&success=1");
 			}
+			// Se a edição do perfil do utilizador falhou (por email já existente)
 			else{
 				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?user="+userToEdit.getUsername()+"&success=0");
 			}
 		}
+		// Se for o utilizador
 		else{
 			User user = (User) session.getAttribute("user");
 			
 			String currEmail = user.getEmail();
 			
+			// Verificar a que campos foram feitas mudanças
 			if(newPassword.isEmpty()){
 				newPassword = user.getPassword();
 			}
@@ -82,11 +93,15 @@ public class EditProfileServlet extends HttpServlet {
 				newEmail = currEmail;
 			}
 			
+			// Editar conta
 			User atualizado = ubr.editAccount(user, newPassword, newName,currEmail, newEmail);
+			
+			// Se o perfil do utilizador foi editado com sucesso
 			if(atualizado != null){
 				session.setAttribute("user", atualizado);
 				dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=1");
 			}
+			// Se a edição do perfil do utilizador falhou (por email já existente)
 			else{
 				dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=0");
 			}
