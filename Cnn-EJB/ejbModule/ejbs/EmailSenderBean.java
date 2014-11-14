@@ -52,7 +52,7 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 		ScheduleExpression se = new ScheduleExpression();
 		// Set schedule to every 30 seconds (starting at second 0 of every
 		// minute).
-		se.hour("*").minute("*").second("0/30");
+		se.hour("0/24");
 		timerService.createCalendarTimer(se, new TimerConfig("Hi from TimeoutExample!", false));
 	}
 
