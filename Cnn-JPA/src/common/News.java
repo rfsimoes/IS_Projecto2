@@ -129,6 +129,8 @@ public class News implements Serializable {
 		this.videoURL = videoURL;
 	}
 	
+	// Função para formatar o email enviado para os utilizadores
+	// O email contém o título da notícia, os highlights e o link para a notícia
 	public String toStringForEmail()
 	{
 		String email="";
