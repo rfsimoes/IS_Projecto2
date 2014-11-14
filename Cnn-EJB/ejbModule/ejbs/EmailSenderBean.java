@@ -115,7 +115,7 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 			 * "\n\n No spam to my email, please!");
 			 */
 			for (User u : users) {
-				String toSend = "<p>Dear " + u.getName() + ", here goes your daily digest:</p><b></b>" + email;
+				String toSend = "<p>Dear " + u.getName() + ", here goes your daily digest:</p><br>" + email;
 				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(u.getEmail()));
 				message.setContent(toSend, "text/html");
 				Transport.send(message);

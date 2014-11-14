@@ -26,10 +26,8 @@ public class NewsBean implements NewsBeanRemote {
     }
     
     
-    /**
-     * Método para ir buscar todas as notícias
-     * @return lista de notícias
-     */
+    // Método para ir buscar todas as notícias
+    // Devolve lista de notícias
     public List<News> getNews(){
     	Query query = em.createQuery("SELECT n FROM News n");
     	
@@ -40,10 +38,9 @@ public class NewsBean implements NewsBeanRemote {
     }
     
    
-    /**
-     * Método para ir buscar as notícias ordenadas por data (+ recentes primeiro)
-     * @return lista de notícias ordenadas
-     */
+    // Método para ir buscar as notícias de uma determinada região ordenadas por data (+ recentes primeiro)
+    // Recebe o nome da região
+    // Devolve lista de notícias ordenadas
     public List<News> newsSortedByDate(String region){
     	Query query = em.createQuery("SELECT n FROM News n WHERE region = :r ORDER BY date DESC");
     	query.setParameter("r", region);
@@ -54,12 +51,10 @@ public class NewsBean implements NewsBeanRemote {
 		return news;
     }
     
-    
-    /**
-     * Método para ir buscar as notícias de um autor
-     * @param author
-     * @return lista de notícias ordenadas
-     */
+   
+    // Método para ir buscar as notícias de um autor
+    // Recebo o nome do autor
+    // Devolde lista de notícias ordenadas
     public List<News> newsFromAuthor(String author){
     	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE upper(a.name) LIKE upper(:author) ORDER BY date DESC");
     	query.setParameter("author", "%"+author+"%");
@@ -70,11 +65,9 @@ public class NewsBean implements NewsBeanRemote {
 		return news;
     }
     
-    /**
-     * Método para ir buscar as notícias de um autor
-     * @param author
-     * @return lista de notícias ordenadas
-     */
+    // Método para ir buscar as notícias de um autor de uma determinada região
+    // Recebe o nome do autor e da região
+    // Devolve lista de notícias ordenadas
     public List<News> newsFromAuthor(String author, String region){
     	Query query = em.createQuery("SELECT n FROM News n INNER JOIN n.authors a WHERE n.region LIKE :r AND upper(a.name) LIKE upper(:author) ORDER BY date DESC");
     	query.setParameter("r", region);
@@ -87,11 +80,9 @@ public class NewsBean implements NewsBeanRemote {
     }
     
     
-    /**
-     * Método para ir buscar as notícias mais recentes que uma data
-     * @param date
-     * @return lista de notícias ordenadas
-     */
+    // Método para ir buscar as notícias mais recentes que uma data
+    // Recebe a data
+    // Devolve lista de notícias ordenadas
     public List<News> newsMoreRecentThan(String date){
     	Query query = em.createQuery("SELECT n FROM News n WHERE n.date > '"+date+"' ORDER BY date DESC");
     	
@@ -101,6 +92,9 @@ public class NewsBean implements NewsBeanRemote {
 		return news;
     }
     
+    // Método para ir buscar as notícias mais recentes que uma data de uma dada região
+    // Recebe a data e o nome da região
+    // Devolve lista de notícias ordenadas
     public List<News> newsMoreRecentThan(String date, String region){
     	Query query = em.createQuery("SELECT n FROM News n WHERE n.region LIKE :r AND n.date > '"+date+"' ORDER BY date DESC");
     	query.setParameter("r", region);
@@ -111,22 +105,4 @@ public class NewsBean implements NewsBeanRemote {
 		return news;
     }
     
-    
-    /**
-     * Método para ir buscar as notícias em que os highlights têm uma determinada palavra.
-     * @param word
-     * @return lista de notícias ordenadas
-     */
-    public List<News> newsWithHighlightWord(String word){
-    	//String query = "SELECT n FROM News n INNER JOIN n.highlights h WHERE h LIKE '%"+word+"%' ORDER BY date DESC";
-    	String query = "select * from news n "
-    			+ "inner join newshighlights h on n.newsid=h.newsid and h.highlight like '%murder%' order by date desc";
-    	List<News> news = null;
-    	
-    	
-    	//news = (List<News>) em.createQuery(query).getResultList();
-    	 news = (List<News>) em.createNativeQuery(query).getResultList();
-    	
-		return news;
-    }
 }
