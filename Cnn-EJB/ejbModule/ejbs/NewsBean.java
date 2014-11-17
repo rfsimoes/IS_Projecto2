@@ -29,7 +29,7 @@ public class NewsBean implements NewsBeanRemote {
     // Método para ir buscar todas as notícias
     // Devolve lista de notícias
     public List<News> getNews(){
-    	Query query = em.createQuery("SELECT n FROM News n");
+    	Query query = em.createQuery("FROM News n");
     	
     	 @SuppressWarnings("unchecked")
 		List<News> news = query.getResultList();
@@ -42,7 +42,7 @@ public class NewsBean implements NewsBeanRemote {
     // Recebe o nome da região
     // Devolve lista de notícias ordenadas
     public List<News> newsSortedByDate(String region){
-    	Query query = em.createQuery("SELECT n FROM News n WHERE region = :r ORDER BY date DESC");
+    	Query query = em.createQuery("FROM News n WHERE region = :r ORDER BY date DESC");
     	query.setParameter("r", region);
     	
     	 @SuppressWarnings("unchecked")

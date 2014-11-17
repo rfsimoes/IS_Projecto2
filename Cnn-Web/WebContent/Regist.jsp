@@ -68,7 +68,7 @@
 				<p> Password <input type="password" name="password" id="password" /></p>
 				<p> Name <input type="text" name="name" id="name" /></p>
 				<p> Email <input type="email" name="email" id="email" /></p>
-				<input type="SUBMIT" value="Regist Account"/>
+				<input type="SUBMIT" value="Create Account"/>
 			</form>
 			
 			<br/>
