@@ -50,7 +50,7 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 	@PostConstruct
 	public void initialize(InvocationContext ctx) {
 		ScheduleExpression se = new ScheduleExpression();
-		se.hour("16/24").minute("59").second("0");
+		se.hour("0/24").minute("0").second("0");
 		timerService.createCalendarTimer(se, new TimerConfig("TimerConfig!", false));
 	}
 
