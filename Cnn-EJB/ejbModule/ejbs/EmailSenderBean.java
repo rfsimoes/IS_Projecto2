@@ -50,7 +50,7 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 	@PostConstruct
 	public void initialize(InvocationContext ctx) {
 		ScheduleExpression se = new ScheduleExpression();
-		se.hour("0/24").minute("0").second("0");
+		se.hour("16/24").minute("59").second("0");
 		timerService.createCalendarTimer(se, new TimerConfig("TimerConfig!", false));
 	}
 
@@ -66,14 +66,14 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 	public void sendEmail() {
 		System.out.println("A enviar ...");
 		String email = "";
-
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", "465");
-
+		props.put("mail.smtp.port", "587");
+		
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				// return new PasswordAuthentication("isproject14@gmail.com",
@@ -81,6 +81,7 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 				return new PasswordAuthentication("systemsintegration14@gmail.com", "1234567892014");
 			}
 		});
+
 
 		try {
 
@@ -90,12 +91,14 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar cal = Calendar.getInstance();
 			String today = dateFormat.format(cal.getTime());
-			// System.out.println("TODAY -> " +
-			// dateFormat.format(cal.getTime()));
+			
+			//System.out.println("TODAY -> " + dateFormat.format(cal.getTime()));
+			
 			cal.add(Calendar.DAY_OF_MONTH, -1);
 			String yesterday = dateFormat.format(cal.getTime());
-			// System.out.println("YESTERDAY -> " +
-			// dateFormat.format(cal.getTime()));
+			
+			//System.out.println("YESTERDAY -> " + dateFormat.format(cal.getTime()));
+			
 			query = em.createQuery("SELECT n FROM News n WHERE n.date > '" + yesterday + "' and n.date < '" + today + "'");
 			@SuppressWarnings("unchecked")
 			List<News> news = query.getResultList();
@@ -112,6 +115,7 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 			 * message.setText("Dear Mail Crawler," +
 			 * "\n\n No spam to my email, please!");
 			 */
+			
 			for (User u : users) {
 				String toSend = "<p>Dear " + u.getName() + ", here goes your daily digest:</p><br>" + email;
 				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(u.getEmail()));
@@ -122,7 +126,7 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 			System.out.println("Sent emails: "+news.size());
 
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 
 	}
