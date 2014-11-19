@@ -1,5 +1,6 @@
 package ejbs;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -27,14 +28,10 @@ public class UserBean implements UserBeanRemote {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * Método para efetuar login. Verifica se o username e a password existem e
-	 * combinam.
-	 * 
-	 * @param username
-	 * @param password
-	 * @return true se existir, false caso contrário
-	 */
+	
+	// Método para efetuar login. Verifica se o username e a password existem e combinam.
+	// Recebe o username e a password
+	// Devolve true se existirem e combinarem, false caso contrário
 	public boolean login(String username, String password) {
 		Query query = em.createQuery("SELECT s FROM User s WHERE username= :u AND password= :p");
 		query.setParameter("u", username);
@@ -49,12 +46,11 @@ public class UserBean implements UserBeanRemote {
 		return false;
 	}
 
-	/**
-	 * Método para efetuar registo. Verifica se o username e o email já existem.
-	 * Caso já existam, o registo não é feito. true se o registo for feito com
-	 * sucesso, false caso contrário.
-	 * 
-	 */
+	
+	// Método para efetuar registo. Verifica se o username e o email já existem.
+	// Caso já existam, o registo não é feito. 
+	// Recebe os dados para o registo (username, password, nome e email).
+	// Devolve true se o registo for feito com sucesso, false caso contrário.
 	public boolean register(String username, String password, String name, String email) {
 		if (checkUsername(username) == false && checkEmail(email) == false) {
 			User novo = new User(username, password, name, email);
@@ -65,6 +61,9 @@ public class UserBean implements UserBeanRemote {
 		return false;
 	}
 
+	// Método para verificar se um username existe
+	// Recebe o username
+	// Devolve true caso exista, false caso contrário
 	private boolean checkUsername(String username) {
 		Query query = em.createQuery("FROM User s WHERE s.username= :u");
 		query.setParameter("u", username);
@@ -77,6 +76,9 @@ public class UserBean implements UserBeanRemote {
 		return false;
 	}
 
+	// Método para verificar se um email existe
+	// Recebe o email
+	// Devolve true caso exista, false caso contrário
 	private boolean checkEmail(String email) {
 		Query query = em.createQuery("SELECT s FROM User s WHERE email= :e");
 		query.setParameter("e", email);
@@ -89,9 +91,10 @@ public class UserBean implements UserBeanRemote {
 		return false;
 	}
 
-	/*
-	 * Ir buscar um user (Possível duplicado de checkUsername)
-	 */
+	
+	// Método para ir buscar um User através do username
+	// Recebe o username
+	// Devovle o utilizador caso exista, null caso contário
 	public User getUser(String username) {
 		Query query = em.createQuery("FROM User s WHERE s.username= :u");
 		query.setParameter("u", username);
@@ -104,9 +107,8 @@ public class UserBean implements UserBeanRemote {
 		return null;
 	}
 	
-	/*
-	 * Ir buscar todos os utilizadores (à excepção do admin)
-	 */
+	// Método para ir buscar todos os utilizadores (à excepção do admin)
+	// Devolve lista de utilizadores, ou null caso não existam utilizadores
 	public List<User> getAllUsers() {
 		Query query = em.createQuery("FROM User s WHERE s.username NOT LIKE 'admin'");
 
@@ -115,12 +117,19 @@ public class UserBean implements UserBeanRemote {
 		if (users.size() > 0) {
 			return users;
 		}
-		return null;
+		List<User> emptyList = Collections.emptyList();
+		return emptyList;
 	}
 
+	
+	// Método para editar a conta de um utilizador
+	// Recebe o utilizador, a password, o nome, o email atual e o novo email
+	// Devolve o utilizador caso a edição seja feita com sucesso, null caso contário
 	public User editAccount(User user, String password, String name, String currEmail, String newEmail) {
 		
+		// Se o email atual for diferente no novo email
 		if (currEmail.toLowerCase().compareTo(newEmail.toLowerCase()) != 0) {
+			// Se o novo email já existir
 			if (checkEmail(newEmail) == true)
 				return null;
 		}
@@ -132,8 +141,12 @@ public class UserBean implements UserBeanRemote {
 		return user;
 	}
 	
+	
+	// Método para apagar uma conta
+	// Recebe o utilizador a apagar
 	public void deleteAccount(User user)
 	{
+		// Se a BD tiver o user, apaga-o. Se não tiver, tem de fazer o merge desse user para o apagar
 		em.remove(em.contains(user) ? user : em.merge(user));
 	}
 

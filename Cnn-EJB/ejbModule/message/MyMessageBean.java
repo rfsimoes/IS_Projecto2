@@ -50,7 +50,7 @@ public class MyMessageBean implements MessageListener {
 	 * @see MessageListener#onMessage(Message)
 	 */
 	public void onMessage(Message message) {
-		System.out.println("Recebeu stuff");
+		System.out.println("Recebeu notícias");
 		//esb.sendEmail();
 		
 		try {

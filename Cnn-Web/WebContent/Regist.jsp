@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<%@page import="common.User"%>
+
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -61,6 +64,25 @@
 		
 		<!-- CONTEUDO -->
 		<center> 
+		
+			<%  
+				User user = (User) session.getAttribute("user");
+				// Se o utilizador já tiver sessão iniciada, vai diretamente para o Menu
+				if (user != null){
+					if(user.getUsername().equals("admin")){
+			%>
+						<jsp:forward page="/MenuAdmin.jsp"></jsp:forward>
+			<%
+					}
+					else{
+			%>		
+						<jsp:forward page="/Menu.jsp"></jsp:forward>
+			<%
+					}
+				}
+			%>
+			
+		
 			<h1>Sign Up</h1>
 			
 			<form action="RegistServlet" method="POST" id="login_form" onsubmit="return validateForm()">
@@ -68,7 +90,7 @@
 				<p> Password <input type="password" name="password" id="password" /></p>
 				<p> Name <input type="text" name="name" id="name" /></p>
 				<p> Email <input type="email" name="email" id="email" /></p>
-				<input type="SUBMIT" value="Regist Account"/>
+				<input type="SUBMIT" value="Create Account"/>
 			</form>
 			
 			<br/>
