@@ -43,17 +43,15 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 
 	@Timeout
 	public void scheduler(Timer timer) {
-		System.out.println("EJB Timer: Info=" + timer.getInfo());
+		System.out.println("scheduler=" + timer.getInfo());
 		sendEmail();
 	}
 
 	@PostConstruct
 	public void initialize(InvocationContext ctx) {
 		ScheduleExpression se = new ScheduleExpression();
-		// Set schedule to every 30 seconds (starting at second 0 of every
-		// minute).
-		se.hour("0/24");
-		timerService.createCalendarTimer(se, new TimerConfig("Hi from TimeoutExample!", false));
+		se.hour("0/24").minute("0").second("0");
+		timerService.createCalendarTimer(se, new TimerConfig("TimerConfig!", false));
 	}
 
 	@PreDestroy
