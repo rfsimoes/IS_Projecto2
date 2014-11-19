@@ -97,96 +97,107 @@
 		<!-- CONTEUDO -->
 		<%  
         	NewsBeanRemote newsbean = (NewsBeanRemote) session.getAttribute("newsBean");
-	        
+		
 			// Lista de regiões
 			List<String> regioes = (List<String>) session.getAttribute("regioes");
 	       	
 	        // Para cada região, apresenta as notícias ordenadas por data (as mais recentes primeiro)
 	        for(int j=0; j<regioes.size(); j++){
-	        	List<News> news = newsbean.newsSortedByDate(regioes.get(j));
-	        	pageContext.setAttribute("newsList", news);
+	        	List<News> news = newsbean.newsSortedByDate(regioes.get(j), userdata.getUsername(), userdata.getPassword());
+	        	
+	        	// Se o utilizador tiver autorização para aceder ao método newsSortedByDate()
+	        	if(news != null){
+	        		pageContext.setAttribute("newsList", news);
         %>
         
-        		<!-- Região -->
-				<c:set var="regiao" value="<%= regioes.get(j) %>"/>
-				<h1 id="<%= regioes.get(j) %>">${regiao}</h1>
-				<div class="panel-group" id="accordion">
-					
-					<!-- Notícias -->
-				    <c:forEach var="news" items="${newsList}" varStatus="status">
-						<div class="panel panel-default">
-							
-							<!-- Header do painel -->
-							<div class="panel-heading">
-								<!-- Título da notícia -->
-								<h3 class="panel-title">
-								    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse${news.region}${status.index}">
-								    	<c:out value="${news.title}"/>
-								    </a>
-								</h3>
-							</div>
-							
-							<!-- Conteúdo do painel -->
-							<div id="collapse${news.region}${status.index}" class="panel-collapse collapse">
-								<div class="panel-body">
-									<!-- Autor(es) -->
-									<c:set var="numAuthors" value="${fn:length(news.authors)}"/>
-									<c:if test="${numAuthors > 0}">
- 							  			by 
-								  		<c:choose>
-											<c:when test="${numAuthors==1}">
-												<b><c:out value="${news.authors[0].name}"/></b>,
-											</c:when>
-											<c:when test="${numAuthors==2}">
-												<b><c:out value="${news.authors[0].name}"/></b> and <b><c:out value="${news.authors[1].name}"/></b>,
-											</c:when >
-											<c:otherwise>
-												<b><c:out value="${news.authors[0].name}"/></b>, <b><c:out value="${news.authors[1].name}"/></b> and <b><c:out value="${news.authors[2].name}"/></b>,
-											</c:otherwise>
-										</c:choose>
-									</c:if>
-									<!-- Data -->
- 									on 
- 									<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${news.date}" />
-									<br><br>
-									<!-- Highlights -->
-									<ul>
-										<c:forEach var="highlight" items="${news.highlights}" varStatus="hlstatus">
-							    			<li><c:out value="${highlight}"/></li>
-							    		</c:forEach>
-								    </ul>
-									<!-- Foto -->
-							    	<div class="row"> 
-									  	<div class="col-xs-5"> 
-									  		<c:if test="${news.photoURL != ''}">
-								  				<a href="${news.photoURL}" class="thumbnail" target="_blank">
-										      		<img src="${news.photoURL}"/>
-										    	</a>
+	        		<!-- Região -->
+					<c:set var="regiao" value="<%= regioes.get(j) %>"/>
+					<h1 id="<%= regioes.get(j) %>">${regiao}</h1>
+					<div class="panel-group" id="accordion">
+						
+						<!-- Notícias -->
+					    <c:forEach var="news" items="${newsList}" varStatus="status">
+							<div class="panel panel-default">
+								
+								<!-- Header do painel -->
+								<div class="panel-heading">
+									<!-- Título da notícia -->
+									<h3 class="panel-title">
+									    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse${news.region}${status.index}">
+									    	<c:out value="${news.title}"/>
+									    </a>
+									</h3>
+								</div>
+								
+								<!-- Conteúdo do painel -->
+								<div id="collapse${news.region}${status.index}" class="panel-collapse collapse">
+									<div class="panel-body">
+										<!-- Autor(es) -->
+										<c:set var="numAuthors" value="${fn:length(news.authors)}"/>
+										<c:if test="${numAuthors > 0}">
+	 							  			by 
+									  		<c:choose>
+												<c:when test="${numAuthors==1}">
+													<b><c:out value="${news.authors[0].name}"/></b>,
+												</c:when>
+												<c:when test="${numAuthors==2}">
+													<b><c:out value="${news.authors[0].name}"/></b> and <b><c:out value="${news.authors[1].name}"/></b>,
+												</c:when >
+												<c:otherwise>
+													<b><c:out value="${news.authors[0].name}"/></b>, <b><c:out value="${news.authors[1].name}"/></b> and <b><c:out value="${news.authors[2].name}"/></b>,
+												</c:otherwise>
+											</c:choose>
+										</c:if>
+										<!-- Data -->
+	 									on 
+	 									<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${news.date}" />
+										<br><br>
+										<!-- Highlights -->
+										<ul>
+											<c:forEach var="highlight" items="${news.highlights}" varStatus="hlstatus">
+								    			<li><c:out value="${highlight}"/></li>
+								    		</c:forEach>
+									    </ul>
+										<!-- Foto -->
+								    	<div class="row"> 
+										  	<div class="col-xs-5"> 
+										  		<c:if test="${news.photoURL != ''}">
+									  				<a href="${news.photoURL}" class="thumbnail" target="_blank">
+											      		<img src="${news.photoURL}"/>
+											    	</a>
+										  		</c:if>
+									  		</div>
+										</div>
+										<!-- Video -->
+										<div class="video">
+											<c:if test="${news.videoURL != ''}">
+									  			<a class="btn btn-primary btn-lg" role="button" href="${news.videoURL}" target="_blank"><span class="glyphicon glyphicon-film"></span> Video</a>
 									  		</c:if>
-								  		</div>
-									</div>
-									<!-- Video -->
-									<div class="video">
-										<c:if test="${news.videoURL != ''}">
-								  			<a class="btn btn-primary btn-lg" role="button" href="${news.videoURL}" target="_blank"><span class="glyphicon glyphicon-film"></span> Video</a>
-								  		</c:if>
-									</div>
-									<br>
-									<!-- Texto da notícia -->
-									<div class="texto">
-										<c:out value="${news.text}"/>
-									</div>
-									<br>
-									<!-- Fonte -->
-									<div class="source">
-										Source: <a href="${news.url}" style="color: #FF0000" target="_blank">CNN</a>
+										</div>
+										<br>
+										<!-- Texto da notícia -->
+										<div class="texto">
+											<c:out value="${news.text}"/>
+										</div>
+										<br>
+										<!-- Fonte -->
+										<div class="source">
+											Source: <a href="${news.url}" style="color: #FF0000" target="_blank">CNN</a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</c:forEach>
-				</div>
-				<% } %>
+						</c:forEach>
+					</div>
+				<%
+	        	}
+	        	// Se não tiver autorização para aceder ao método newsSortedByDate()
+	        	else{
+	        	%>
+	        		<jsp:forward page="/Login.jsp?unauthorized=1"></jsp:forward>
+	        	<%
+	        	}
+			} %>
         
 	</body>
 </html>

@@ -40,26 +40,50 @@ public class DeleteAccountServlet extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession(true);
 		
+		// Informação do utilizador que está logado
+		User user = (User) session.getAttribute("user");
+		
 		// Se for o administrador
-		if(request.getParameter("admin") != null){
+		if(request.getParameter("userToDelete") != null){
 			// Ir buscar o utilizador a apagar
-			User userToRemove = ubr.getUser(request.getParameter("admin"));
+			User userToRemove = ubr.getUser(request.getParameter("userToDelete"));
 			
-			ubr.deleteAccount(userToRemove);
+			int apagado = ubr.deleteAccount(userToRemove, user.getUsername(), user.getPassword());
 			
-			// Atualizar lista de utilizadores na sessão
-			List<User> utilizadores = ubr.getAllUsers();
-			session.setAttribute("utilizadores", utilizadores);
-			
-			dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
+			// Se o utilizador tiver autorização para aceder ao método deleteAccount()
+			if(apagado != -1){
+				// Ir buscar todos os utilizadores
+				List<User> utilizadores = ubr.getAllUsers(user.getUsername(), user.getPassword());
+				
+				// Se o utilizador tiver autorização para aceder ao método getAllUsers()
+				if(utilizadores != null){
+					// Atualizar lista de utilizadores na sessão
+					session.setAttribute("utilizadores", utilizadores);
+					
+					dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
+				}
+				// Se estiver a aceder ao método getAllUsers() sem autorização
+				else{
+					dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
+				}
+			}
+			// Se estiver a aceder ao método deleteAccount() sem autorização
+			else{
+				dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
+			}
 		}
 		// Se for um utilizador
 		else{
-			User user = (User) session.getAttribute("user");
+			int apagado = ubr.deleteAccount(user, user.getUsername(), user.getPassword());
 			
-			ubr.deleteAccount(user);
-			
-			dispatcher = request.getRequestDispatcher("/Logout.jsp");
+			// Se o utilizador tiver autorização para aceder ao método deleteAccount()
+			if(apagado != -1){
+				dispatcher = request.getRequestDispatcher("/Logout.jsp");
+			}
+			// Se estiver a aceder ao método deleteAccount() sem autorização
+			else{
+				dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
+			}
 		}
 		
 		dispatcher.forward(request, response);

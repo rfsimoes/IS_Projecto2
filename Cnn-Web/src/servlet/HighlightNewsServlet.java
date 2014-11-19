@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.News;
+import common.User;
 import ejbs.NewsBeanRemote;
 
 /**
@@ -45,30 +46,41 @@ public class HighlightNewsServlet extends HttpServlet {
 
 		session = request.getSession(true);
 		
+		User user = (User) session.getAttribute("user");
+		
 		// Ir buscar informação do form
 		List<String> regioes = new ArrayList<String>();	// Lista de regiões
-        List<News> allNews = nbr.getNews();	// Lista de todas as notícias
+        List<News> allNews = nbr.getNews(user.getUsername(), user.getPassword());	// Lista de todas as notícias
         List<News> highlightNews = new ArrayList<News>();	// Lista de notícias com a palavra
         
-        // Percorrer todas as notícias para preencher a lista de regiões e a lista de notícias com a palavra
-        for(int i=0; i<allNews.size();i++){
-        	for(int j=0; j<allNews.get(i).getHighlights().size(); j++){
-        		if(allNews.get(i).getHighlights().get(j).contains(word)){
-        			if(!highlightNews.contains(allNews.get(i))){
-        				highlightNews.add(allNews.get(i));
-        			}
-        			if(!regioes.contains(allNews.get(i).getRegion())){
-    	        		regioes.add(allNews.get(i).getRegion());
-    	        	}
-        		}
-        	}
+        
+        // Se o utilizador tiver autorização para aceder ao método getNews()
+        if(allNews != null){
+        	// Percorrer todas as notícias para preencher a lista de regiões e a lista de notícias com a palavra
+            for(int i=0; i<allNews.size();i++){
+            	for(int j=0; j<allNews.get(i).getHighlights().size(); j++){
+            		if(allNews.get(i).getHighlights().get(j).contains(word)){
+            			if(!highlightNews.contains(allNews.get(i))){
+            				highlightNews.add(allNews.get(i));
+            			}
+            			if(!regioes.contains(allNews.get(i).getRegion())){
+        	        		regioes.add(allNews.get(i).getRegion());
+        	        	}
+            		}
+            	}
+            }
+    		
+            session.setAttribute("regioes",regioes);
+            session.setAttribute("highlightNews", highlightNews);
+    		session.setAttribute("word", word);
+    		
+    		dispatcher = request.getRequestDispatcher("/HighlightNews.jsp");
         }
-		
-        session.setAttribute("regioes",regioes);
-        session.setAttribute("highlightNews", highlightNews);
-		session.setAttribute("word", word);
-		
-		dispatcher = request.getRequestDispatcher("/HighlightNews.jsp");
+        // Se o utilizador não tiver autorização
+        else{
+        	dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
+        }
+        
 		
 		dispatcher.forward(request, response);
 	}

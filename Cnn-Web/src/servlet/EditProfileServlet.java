@@ -46,10 +46,14 @@ public class EditProfileServlet extends HttpServlet {
 		String newName = request.getParameter("name");
 		String newEmail = request.getParameter("email");
 		
+		// Informação do utilizador que está logado
+		User user = (User) session.getAttribute("user");
+		
+		
 		// Se for o administrador
-		if(request.getParameter("admin") != null){
+		if(request.getParameter("userToEdit") != null){
 			// Ir buscar utilizador a editar
-			User userToEdit = ubr.getUser(request.getParameter("admin"));
+			User userToEdit = ubr.getUser(request.getParameter("userToEdit"));
 			
 			String currEmail = userToEdit.getEmail();
 			
@@ -65,21 +69,26 @@ public class EditProfileServlet extends HttpServlet {
 			}
 			
 			// Editar conta
-			User atualizado = ubr.editAccount(userToEdit, newPassword, newName,currEmail, newEmail);
+			User atualizado = ubr.editAccount(userToEdit, newPassword, newName,currEmail, newEmail, user.getUsername(), user.getPassword());
 			
-			// Se o perfil do utilizador foi editado com sucesso
+			// Se o utilizador tiver autorização para aceder ao método editAccount()
 			if(atualizado != null){
-				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?user="+userToEdit.getUsername()+"&success=1");
+				// Se o perfil do utilizador foi editado com sucesso
+				if(!atualizado.getUsername().equals("")){
+					dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?user="+userToEdit.getUsername()+"&success=1");
+				}
+				// Se a edição do perfil do utilizador falhou (por email já existente)
+				else{
+					dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?user="+userToEdit.getUsername()+"&success=0");
+				}
 			}
-			// Se a edição do perfil do utilizador falhou (por email já existente)
+			// Se estiver a aceder ao método editAccount() sem autorização
 			else{
-				dispatcher = request.getRequestDispatcher("/AdminEdit.jsp?user="+userToEdit.getUsername()+"&success=0");
+				dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
 			}
 		}
 		// Se for o utilizador
 		else{
-			User user = (User) session.getAttribute("user");
-			
 			String currEmail = user.getEmail();
 			
 			// Verificar a que campos foram feitas mudanças
@@ -94,16 +103,24 @@ public class EditProfileServlet extends HttpServlet {
 			}
 			
 			// Editar conta
-			User atualizado = ubr.editAccount(user, newPassword, newName,currEmail, newEmail);
+			User atualizado = ubr.editAccount(user, newPassword, newName,currEmail, newEmail, user.getUsername(), user.getPassword());
 			
-			// Se o perfil do utilizador foi editado com sucesso
+			
 			if(atualizado != null){
-				session.setAttribute("user", atualizado);
-				dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=1");
+				// Se o perfil do utilizador foi editado com sucesso
+				if(!atualizado.getUsername().equals("")){
+					// Atualizar utilizador na sessão
+					session.setAttribute("user", atualizado);
+					dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=1");
+				}
+				// Se a edição do perfil do utilizador falhou (por email já existente)
+				else{
+					dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=0");
+				}
 			}
-			// Se a edição do perfil do utilizador falhou (por email já existente)
+			// Se estiver a aceder ao método sem autorização
 			else{
-				dispatcher = request.getRequestDispatcher("/EditProfile.jsp?success=0");
+				dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
 			}
 		}
 		

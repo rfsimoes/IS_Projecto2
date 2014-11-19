@@ -48,9 +48,20 @@ public class CreateUserServlet extends HttpServlet {
 		
 		// Se a criação do utilizador correr bem
 		if (ubr.register(username, password, name, email) == true) {
-			List<User> utilizadores = ubr.getAllUsers();
-			session.setAttribute("utilizadores", utilizadores);
-			dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
+			User userData = (User) session.getAttribute("user");
+			
+			// Ir buscar todos os utilizadores
+			List<User> utilizadores = ubr.getAllUsers(userData.getUsername(), userData.getPassword());
+			
+			// Se o utilizador tiver autorização para efectuar a acção
+			if(utilizadores != null){
+				session.setAttribute("utilizadores", utilizadores);
+				dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
+			}
+			// Se estiver a aceder ao método sem autorização
+			else{
+				dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
+			}
 		}
 		// Caso a criação do utilizador falhe (por email já existente)
 		else {

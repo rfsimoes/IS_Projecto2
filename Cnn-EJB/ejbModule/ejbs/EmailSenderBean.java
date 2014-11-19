@@ -121,7 +121,7 @@ public class EmailSenderBean implements EmailSenderBeanRemote {
 				Transport.send(message);
 			}
 
-			System.out.println("Sent emails"+news.size());
+			System.out.println("Sent emails: "+news.size());
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);

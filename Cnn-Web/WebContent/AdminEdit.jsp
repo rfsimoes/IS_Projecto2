@@ -71,7 +71,7 @@
 				User userToEdit = ubr.getUser(request.getParameter("user"));
 			%>
 			
-			<form action="EditProfileServlet?admin=<%= userToEdit.getUsername() %>" method="POST" id="login_form" onsubmit="return validateForm()">
+			<form action="EditProfileServlet?userToEdit=<%= userToEdit.getUsername() %>" method="POST" id="login_form" onsubmit="return validateForm()">
 				<p> Username <input type="text" id="disabledInput" placeholder="<%= userToEdit.getUsername() %>" disabled></p>
 				<p> Password <input type="password" name="password" id="password" /></p>
 				<p> Name <input type="text" name="name" id="name" placeholder="<%= userToEdit.getName() %>"/></p>

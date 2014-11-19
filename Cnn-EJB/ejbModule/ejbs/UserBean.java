@@ -28,10 +28,17 @@ public class UserBean implements UserBeanRemote {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	// Método para efetuar login. Verifica se o username e a password existem e combinam.
-	// Recebe o username e a password
-	// Devolve true se existirem e combinarem, false caso contrário
+	/*
+	*  Método para efetuar login. Verifica se o username e a password existem e combinam.
+	*  Recebe o username e a password
+	*  Devolve true se existirem e combinarem, false caso contrário
+	*
+	*  NOTA: Este método serve também para garantir o acesso seguro aos beans.
+	* 		 Em cada método que seja necessário estar logado para efectuar a acção correspondente, haverá a seguinte condição:
+	*			 if(!login(username, password)){ return [null/false]; }
+	*		 Isto permite verificar se um utilizador tem permissão para aceder ao método.
+	*		 Caso não tenha, será informado do acesso indevido e redirecionado para a página de login.
+	*/
 	public boolean login(String username, String password) {
 		Query query = em.createQuery("SELECT s FROM User s WHERE username= :u AND password= :p");
 		query.setParameter("u", username);
@@ -108,8 +115,11 @@ public class UserBean implements UserBeanRemote {
 	}
 	
 	// Método para ir buscar todos os utilizadores (à excepção do admin)
-	// Devolve lista de utilizadores, ou null caso não existam utilizadores
-	public List<User> getAllUsers() {
+	// Devolve lista de utilizadores, lista vazia caso não existam utilizadores ou null se for feito um acesso indevido ao método
+	public List<User> getAllUsers(String username, String password) {
+		if(!login(username, password))
+			return null;
+		
 		Query query = em.createQuery("FROM User s WHERE s.username NOT LIKE 'admin'");
 
 		@SuppressWarnings("unchecked")
@@ -124,14 +134,21 @@ public class UserBean implements UserBeanRemote {
 	
 	// Método para editar a conta de um utilizador
 	// Recebe o utilizador, a password, o nome, o email atual e o novo email
-	// Devolve o utilizador caso a edição seja feita com sucesso, null caso contário
-	public User editAccount(User user, String password, String name, String currEmail, String newEmail) {
+	// Devolve o utilizador caso a edição seja feita com sucesso, 
+	// 		   um utilizador com o username vazio caso falhe por email já existente, 
+	//		   null caso falhe por acesso indevido ao método
+	public User editAccount(User user, String password, String name, String currEmail, String newEmail, String usernameSec, String passwordSec) {		
+		if(!login(usernameSec, passwordSec))
+			return null;
 		
 		// Se o email atual for diferente no novo email
 		if (currEmail.toLowerCase().compareTo(newEmail.toLowerCase()) != 0) {
 			// Se o novo email já existir
-			if (checkEmail(newEmail) == true)
-				return null;
+			if (checkEmail(newEmail) == true){
+				User erro = new User();
+				erro.setUsername("");
+				return erro;
+			}
 		}
 
 		user.setPassword(password);
@@ -144,10 +161,16 @@ public class UserBean implements UserBeanRemote {
 	
 	// Método para apagar uma conta
 	// Recebe o utilizador a apagar
-	public void deleteAccount(User user)
+	// Devolve 1 se apagar o utilizador, -1 caso se verifique acesso indevido ao método
+	public int deleteAccount(User user, String username, String password)
 	{
+		if(!login(username, password))
+			return -1;
+		
 		// Se a BD tiver o user, apaga-o. Se não tiver, tem de fazer o merge desse user para o apagar
 		em.remove(em.contains(user) ? user : em.merge(user));
+		
+		return 1;
 	}
 
 }

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.News;
-
+import common.User;
 import ejbs.NewsBeanRemote;
 
 /**
@@ -42,23 +42,33 @@ public class DateNewsServlet extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		HttpSession session = request.getSession(true);
 
+		// Informação do utilizador
+		User user = (User) session.getAttribute("user");
+		
 		String date = request.getParameter("date");
         
         List<String> regioes = new ArrayList<String>();	// Lista de regiões
-        List<News> newsDate = nbr.newsMoreRecentThan(date);	// Lista de notícias
+        List<News> newsDate = nbr.newsMoreRecentThan(date, user.getUsername(), user.getPassword());	// Lista de notícias
         
-        // Percorrer lista de notícias para preencher lista de regiões
-        for(int i=0; i<newsDate.size();i++){
-        	if(!regioes.contains(newsDate.get(i).getRegion())){
-        		regioes.add(newsDate.get(i).getRegion());
-        	}
+        // Se o utilizador tiver autorização para aceder ao método newsMoreRecentThan()
+        if(newsDate != null){
+        	// Percorrer lista de notícias para preencher lista de regiões
+            for(int i=0; i<newsDate.size();i++){
+            	if(!regioes.contains(newsDate.get(i).getRegion())){
+            		regioes.add(newsDate.get(i).getRegion());
+            	}
+            }
+            
+            session.setAttribute("regioes", regioes);
+    		session.setAttribute("date", date);
+    		
+    		dispatcher = request.getRequestDispatcher("/DateNews.jsp");
         }
-        
-        session.setAttribute("regioes", regioes);
-		session.setAttribute("date", date);
-		
-		dispatcher = request.getRequestDispatcher("/DateNews.jsp");
-		
+        // Se o utilizador não tiver autorização
+        else{
+        	dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
+        }
+
 		dispatcher.forward(request, response);
 	}
 

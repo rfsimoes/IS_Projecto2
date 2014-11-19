@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.News;
+import common.User;
 import ejbs.NewsBeanRemote;
 
 
@@ -46,21 +47,31 @@ public class AuthorNewsServlet extends HttpServlet {
 
 		session = request.getSession(true);
 		
+		// Informação do utilizador
+		User user = (User) session.getAttribute("user");
+		
 		List<String> regioes = new ArrayList<String>();	// Lista de regiões
-        List<News> newsAuthor = nbr.newsFromAuthor(author);	// Lista de notícias
+        List<News> newsAuthor = nbr.newsFromAuthor(author, user.getUsername(), user.getPassword());	// Lista de notícias
         
-        // Percorrer lista de notícias para preencher lista de regiões
-        for(int i=0; i<newsAuthor.size();i++){
-        	if(!regioes.contains(newsAuthor.get(i).getRegion())){
-        		regioes.add(newsAuthor.get(i).getRegion());
-        	}
+        // Se o utilizador tiver autorização para aceder ao método newsFromAuthor()
+        if(newsAuthor != null){
+        	// Percorrer lista de notícias para preencher lista de regiões
+            for(int i=0; i<newsAuthor.size();i++){
+            	if(!regioes.contains(newsAuthor.get(i).getRegion())){
+            		regioes.add(newsAuthor.get(i).getRegion());
+            	}
+            }
+    		
+            session.setAttribute("regioes", regioes);
+    		session.setAttribute("author", author);
+    		
+    		dispatcher = request.getRequestDispatcher("/AuthorNews.jsp");
         }
-		
-        session.setAttribute("regioes", regioes);
-		session.setAttribute("author", author);
-		
-		dispatcher = request.getRequestDispatcher("/AuthorNews.jsp");
-		
+        // Se o utilizador não tiver autorização
+        else{
+        	dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
+        }
+      
 		dispatcher.forward(request, response);
 	}
 

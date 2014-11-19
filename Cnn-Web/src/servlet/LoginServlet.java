@@ -59,9 +59,17 @@ public class LoginServlet extends HttpServlet {
 			
 			// Se for o administrador
 			if(username.equals("admin")){
-				List<User> utilizadores = ubr.getAllUsers();
-				session.setAttribute("utilizadores", utilizadores);
-				dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
+				List<User> utilizadores = ubr.getAllUsers(userData.getUsername(), userData.getPassword());
+				
+				// Se o utilizador tiver autorização para efectuar a acção
+				if(utilizadores != null){
+					session.setAttribute("utilizadores", utilizadores);
+					dispatcher = request.getRequestDispatcher("/MenuAdmin.jsp");
+				}
+				// Se estiver a aceder ao método sem autorização
+				else{
+					dispatcher = request.getRequestDispatcher("/Login.jsp?unauthorized=1");
+				}
 			}
 			// Se for um utilizador normal
 			else{

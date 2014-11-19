@@ -24,7 +24,7 @@
 		        var r = confirm("Are you sure you want to delete "+username+"'s account?\nPress Ok to delete, Cancel to quit!");
 		        if (r == true) {
 		            txt = "Ok";
-		            document.location.href="DeleteAccountServlet?admin="+username;
+		            document.location.href="DeleteAccountServlet?userToDelete="+username;
 		        } else {
 		            txt = "Cancel";
 		        }
